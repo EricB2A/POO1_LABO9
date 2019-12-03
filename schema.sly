@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="iso-8859-15" standalone="no"?>
+<classDiagram>
+  <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="">
+    <entity entityType="CLASS" id="45054" isAbstract="false" name="Player" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="color" type="PlayerColor" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="activePieces[]" type="Playable" visibility="PRIVATE"/>
+    </entity>
+    <inheritance id="44871">
+      <child>44866</child>
+      <parent>44865</parent>
+    </inheritance>
+    <inheritance id="44868">
+      <child>44867</child>
+      <parent>44866</parent>
+    </inheritance>
+    <entity entityType="CLASS" id="44867" isAbstract="false" name="Pawn" visibility="PUBLIC"/>
+    <entity entityType="CLASS" id="44866" isAbstract="true" name="Piece" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="color" type="PlayerColor" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="type" type="PieceType" visibility="PRIVATE"/>
+    </entity>
+    <entity entityType="INTERFACE" id="44865" isAbstract="true" name="Playable" visibility="PUBLIC">
+      <method isAbstract="true" isStatic="false" name="move" returnType="boolean" view="DEFAULT" visibility="PUBLIC"/>
+      <method isAbstract="true" isStatic="false" name="toString" returnType="String" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="44864" isAbstract="false" name="Board" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="board[][]" type="Playable" visibility="PRIVATE"/>
+    </entity>
+    <entity entityType="CLASS" id="44635" isAbstract="false" name="GameController" visibility="PUBLIC">
+      <method isAbstract="false" isStatic="false" name="start" returnType="void" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="view" type="ChessView"/>
+      </method>
+      <method isAbstract="false" isStatic="false" name="newGame" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+      <method isAbstract="false" isStatic="false" name="move" returnType="boolean" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="fromX" type="int"/>
+        <variable const="false" name="fromY" type="int"/>
+        <variable const="false" name="toX" type="int"/>
+        <variable const="false" name="toY" type="int"/>
+      </method>
+    </entity>
+  </diagramElements>
+  <umlView grid="10" name="Main view" open="true">
+    <relationView color="-12566464" relationId="44868">
+      <line>
+        <point>
+          <x>121</x>
+          <y>531</y>
+        </point>
+        <point>
+          <x>121</x>
+          <y>456</y>
+        </point>
+      </line>
+    </relationView>
+    <relationView color="-12566464" relationId="44871">
+      <line>
+        <point>
+          <x>121</x>
+          <y>371</y>
+        </point>
+        <point>
+          <x>121</x>
+          <y>330</y>
+        </point>
+      </line>
+    </relationView>
+    <componentView color="-2079" componentID="44635" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>570</x>
+        <y>230</y>
+        <w>360</w>
+        <h>100</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="44864" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>290</x>
+        <y>230</y>
+        <w>150</w>
+        <h>70</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="44865" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>40</x>
+        <y>230</y>
+        <w>150</w>
+        <h>99</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="44866" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>40</x>
+        <y>370</y>
+        <w>150</w>
+        <h>85</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="44867" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>40</x>
+        <y>530</y>
+        <w>150</w>
+        <h>55</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="45054" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>290</x>
+        <y>400</y>
+        <w>190</w>
+        <h>85</h>
+      </geometry>
+    </componentView>
+  </umlView>
+</classDiagram>
