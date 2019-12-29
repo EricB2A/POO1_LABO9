@@ -13,6 +13,7 @@ class StudentChess {
 
     // 2. Création de la vue désirée
     ChessView view = new GUIView(controller); // ou console
+    //TODO: bug avec ConsoleView, view null dans Board.newGame().
     //ChessView view = new ConsoleView(controller); // ou GUI
 
     // 3. Lancement du programme.

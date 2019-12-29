@@ -5,12 +5,11 @@ import chess.ChessView;
 import chess.PlayerColor;
 import chess.engine.pieces.*;
 
-import java.awt.*;
-
 public class Board implements ChessController {
 
     private int N_COTE = 8;
     private ChessView view;
+    private Playable board[][];
 
     //TODO: très C++ comme code.. à voir si c'est une solution viable.
     private enum side {
@@ -23,7 +22,6 @@ public class Board implements ChessController {
         }
         public final int position;
     }
-    Playable board[][];
 
     @Override
     public void start(ChessView view) {
@@ -36,31 +34,54 @@ public class Board implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        return false;
+        System.out.println("Moving..");
+        System.out.println(isCellEmpty(fromX, fromY));
+        if(isCellEmpty(fromX, fromY)){
+            return false;
+        }
+
+        if(isCellEmpty(toX, toY)){
+            System.out.println("Oh roger we in");
+            Piece toMove = removePieceAt(fromX, fromY);
+            placePieceAt(toMove, toX, toY);
+        }
+
+        return true;
+    }
+
+    private Piece removePieceAt(int posX, int posY){
+        if(isCellEmpty(posX, posY)){
+            throw new RuntimeException("Piece is introuvable");
+        }
+        Piece removed = (Piece) board[posX][posY];
+        board[posX][posY] = null;
+        view.removePiece(posX, posY);
+        return removed;
+    }
+
+    private void placePieceAt(Piece piece, int posX, int posY){
+        board[posX][posY] = piece;
+        view.putPiece(piece.getType(), piece.getOwner().getColor(), posX, posY);
+    }
+
+    private boolean isCellEmpty(int posX, int posY){
+        return board[posX][posY] == null;
     }
 
     @Override
     public void newGame() {
-        System.out.println("Starting new game..");
         board = new Playable[N_COTE][N_COTE];
         Player player1 = new Player(PlayerColor.BLACK);
         Player player2 = new Player(PlayerColor.WHITE);
-        System.out.println("Setting up team 1..");
         setUpTeam(player1, side.TOP);
-        System.out.println("Done.");
-        System.out.println("Setting up team 2..");
         setUpTeam(player2, side.BOTTOM);
-        System.out.println("Done.");
 
         for(int i = 0; i < N_COTE; ++i){
             for(int j = 0; j < N_COTE; ++j){
-                System.out.printf("X : %s, Y : %s.", i, j);
                 if(board[i][j] != null){
-                    System.out.printf("Has a pièece !");
                     Piece piece = (Piece) board[i][j]; // c'est plus malin que ça en a l'air.
                     view.putPiece(piece.getType(), piece.getOwner().getColor(), i, j);
                 }
-                System.out.printf("\n");
             }
         }
     }
