@@ -11,6 +11,6 @@ public class Rook extends Piece {
 
     @Override
     public boolean checkMove(int fromX, int fromY, int toX, int toY) {
-        return false;
+        return true;
     }
 }

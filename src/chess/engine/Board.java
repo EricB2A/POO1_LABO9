@@ -10,7 +10,7 @@ public class Board implements ChessController {
     private int N_COTE = 8;
     private ChessView view;
     private Playable board[][];
-    private Player turn;
+    private Player turn; //NOTE: on peut faire mieux. A voir.
     private Player player1;
     private Player player2;
 
@@ -41,16 +41,13 @@ public class Board implements ChessController {
             return false;
         }
 
-        if(isCellEmpty(toX, toY)){
-            Piece toMove = (Piece) board[fromX][fromY];
-            if(isItsTurn(toMove)){
-                removePieceAt(fromX, fromY);
-                placePieceAt(toMove, toX, toY);
-                endTurn();
-            }
+        Piece toMove = (Piece) board[fromX][fromY];
+        if(isItsTurn(toMove) && toMove.checkMove(fromX, fromY, toX, toY)){
+            removePieceAt(fromX, fromY);
+            placePieceAt(toMove, toX, toY);
+            endTurn();
         }
 
-        System.out.println("turn sis "+ turn);
         return true;
     }
 
@@ -60,8 +57,6 @@ public class Board implements ChessController {
 
     private void endTurn(){
         turn = turn == player1 ? player2 : player1;
-        System.out.println("Ending turn..");
-        System.out.println("Turn is : " + turn);
     }
     
     private void removePieceAt(int posX, int posY){

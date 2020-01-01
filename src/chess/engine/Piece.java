@@ -20,6 +20,7 @@ public abstract class Piece implements Playable {
 
     }
 
+
     public Player getOwner() {
         return owner;
     }
