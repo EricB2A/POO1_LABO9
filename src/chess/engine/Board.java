@@ -10,6 +10,9 @@ public class Board implements ChessController {
     private int N_COTE = 8;
     private ChessView view;
     private Playable board[][];
+    private Player turn;
+    private Player player1;
+    private Player player2;
 
     //TODO: très C++ comme code.. à voir si c'est une solution viable.
     private enum side {
@@ -34,29 +37,39 @@ public class Board implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        System.out.println("Moving..");
-        System.out.println(isCellEmpty(fromX, fromY));
         if(isCellEmpty(fromX, fromY)){
             return false;
         }
 
         if(isCellEmpty(toX, toY)){
-            System.out.println("Oh roger we in");
-            Piece toMove = removePieceAt(fromX, fromY);
-            placePieceAt(toMove, toX, toY);
+            Piece toMove = (Piece) board[fromX][fromY];
+            if(isItsTurn(toMove)){
+                removePieceAt(fromX, fromY);
+                placePieceAt(toMove, toX, toY);
+                endTurn();
+            }
         }
 
+        System.out.println("turn sis "+ turn);
         return true;
     }
 
-    private Piece removePieceAt(int posX, int posY){
+    private boolean isItsTurn(Piece piece){
+        return piece.getOwner() == turn;
+    }
+
+    private void endTurn(){
+        turn = turn == player1 ? player2 : player1;
+        System.out.println("Ending turn..");
+        System.out.println("Turn is : " + turn);
+    }
+    
+    private void removePieceAt(int posX, int posY){
         if(isCellEmpty(posX, posY)){
             throw new RuntimeException("Piece is introuvable");
         }
-        Piece removed = (Piece) board[posX][posY];
         board[posX][posY] = null;
         view.removePiece(posX, posY);
-        return removed;
     }
 
     private void placePieceAt(Piece piece, int posX, int posY){
@@ -79,17 +92,21 @@ public class Board implements ChessController {
         for(int i = 0; i < N_COTE; ++i){
             for(int j = 0; j < N_COTE; ++j){
                 if(board[i][j] != null){
-                    Piece piece = (Piece) board[i][j]; // c'est plus malin que ça en a l'air.
+                    Piece piece = (Piece) board[i][j];
                     view.putPiece(piece.getType(), piece.getOwner().getColor(), i, j);
                 }
             }
         }
+
+        this.player1 = player1;
+        this.player2 = player2;
+        this.turn = player2; // Le blanc commence.
     }
 
     private void setUpTeam(Player player, side side){
-
         // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
         int deltaPlayer = side == side.TOP ? 1 : -1;
+
         // Pawn
         for(int i = 0; i < N_COTE; ++i){
             board[i][side.position + deltaPlayer] = new Pawn(player);
