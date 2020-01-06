@@ -4,6 +4,9 @@ import chess.PieceType;
 import chess.engine.Piece;
 import chess.engine.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Knight extends Piece {
     public Knight(Player owner) {
         super(PieceType.KNIGHT, owner);
@@ -11,6 +14,7 @@ public class Knight extends Piece {
 
     @Override
     public List<Move> getMoves(int x, int y) {
-        return true;
+        List<Move> moves = new ArrayList<Move>();
+        return moves;
     }
 }

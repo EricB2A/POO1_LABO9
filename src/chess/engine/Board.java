@@ -35,10 +35,14 @@ public class Board implements ChessController {
         }
 
         Piece toMove = (Piece) board[fromX][fromY];
-        if(isItsTurn(toMove) && toMove.getMoves(fromX, toY)){
-            removePieceAt(fromX, fromY);
-            placePieceAt(toMove, toX, toY);
-            endTurn();
+        if(isItsTurn(toMove)){
+            for (Move move : toMove.getMoves(fromX, fromY)){
+                if(move.equals(toX, toY)){
+                    removePieceAt(fromX, fromY);
+                    placePieceAt(toMove, toX, toY);
+                    endTurn();
+                }
+            }
         }
 
         return true;

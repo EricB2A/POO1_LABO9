@@ -10,5 +10,9 @@ public class Move {
         this.toY = toY;
     }
 
+    public boolean equals(int x, int y){
+        return toX == x && toY == y;
+    }
+
     
 }
