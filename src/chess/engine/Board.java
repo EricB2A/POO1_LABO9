@@ -5,8 +5,6 @@ import chess.ChessView;
 import chess.PlayerColor;
 import chess.engine.pieces.*;
 
-import java.awt.*;
-
 public class Board implements ChessController {
 
     private int N_COTE = 8;
@@ -25,6 +23,10 @@ public class Board implements ChessController {
     }
     Playable board[][];
 
+    private Player player1 = new Player(PlayerColor.BLACK);
+    private Player player2 = new Player(PlayerColor.WHITE);
+    private Player playingPlayer = player2;
+
     @Override
     public void start(ChessView view) {
         if(view == null){
@@ -33,18 +35,59 @@ public class Board implements ChessController {
         view.startView();
         this.view = view;
     }
+    public boolean isCellFree(int x, int y)
+    {
+        return board[x][y] == null;
+    }
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        return false;
+
+
+        Playable selectedPiece = board[fromX][fromY];
+        Playable destinationCell = board[toX][toY];
+
+        if(selectedPiece == null){
+            System.out.println("Pas de pièces sur cette case");
+            return false;
+        }
+        // on vérifie que la pièce appartient au joueur
+        if (!selectedPiece.belongsToPlayer(playingPlayer)) {
+            System.out.println("La pièces ne vous appartient pas");
+            return false ;
+        }
+
+        if(destinationCell != null && destinationCell.belongsToPlayer(playingPlayer)){
+            System.out.println("Mauvaise cible");
+            return false;
+        }
+
+        // on vérifie que le mouvement est valide
+        if(!selectedPiece.checkMove(fromX, fromY, toX, toY)){
+            System.out.println("Mouvement invalide" );
+            return false;
+        }
+        if(destinationCell != null)
+        {
+            System.out.println("SUUUUUS");
+            view.removePiece(toX, toY);
+        }
+
+        view.removePiece(fromX,fromY);
+        view.putPiece(((Piece) selectedPiece).getType(), ((Piece) selectedPiece).getOwner().getColor(),toX, toY);
+
+        board[toX][toY] = board[fromX][fromY];
+        board[fromX][fromY] = null;
+        playingPlayer = player1 == playingPlayer ? player2 : player1;
+
+        return true;
     }
 
     @Override
     public void newGame() {
         System.out.println("Starting new game..");
         board = new Playable[N_COTE][N_COTE];
-        Player player1 = new Player(PlayerColor.BLACK);
-        Player player2 = new Player(PlayerColor.WHITE);
+
         System.out.println("Setting up team 1..");
         setUpTeam(player1, side.TOP);
         System.out.println("Done.");
@@ -64,32 +107,34 @@ public class Board implements ChessController {
             }
         }
     }
-
+    public Playable getPiece(int x, int y) {
+        return board[x][y];
+    }
     private void setUpTeam(Player player, side side){
 
         // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
         int deltaPlayer = side == side.TOP ? 1 : -1;
         // Pawn
         for(int i = 0; i < N_COTE; ++i){
-            board[i][side.position + deltaPlayer] = new Pawn(player);
+            board[i][side.position + deltaPlayer] = new Pawn(player, this);
         }
 
         // Rook
-        board[0][side.position] = new Rook(player);
-        board[N_COTE - 1][side.position] = new Rook(player);
+        board[0][side.position] = new Rook(player, this);
+        board[N_COTE - 1][side.position] = new Rook(player, this);
 
         // Knight
-        board[1][side.position] = new Knight(player);
-        board[N_COTE - 2][side.position] = new Knight(player);
+        board[1][side.position] = new Knight(player, this);
+        board[N_COTE - 2][side.position] = new Knight(player, this);
 
         // Bishop
-        board[2][side.position] = new Bishop(player);
-        board[N_COTE - 3][side.position] = new Bishop(player);
+        board[2][side.position] = new Bishop(player, this);
+        board[N_COTE - 3][side.position] = new Bishop(player, this);
 
         // King
-        board[3][side.position] = new King(player);
+        board[3][side.position] = new King(player, this);
 
         // Queen
-        board[4][side.position] = new Queen(player);
+        board[4][side.position] = new Queen(player, this);
     }
 }
