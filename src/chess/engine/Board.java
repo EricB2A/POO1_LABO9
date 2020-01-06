@@ -67,6 +67,9 @@ public class Board implements ChessController {
     private void placePieceAt(Piece piece, int posX, int posY){
         board[posX][posY] = piece;
         view.putPiece(piece.getType(), piece.getOwner().getColor(), posX, posY);
+        if(piece.getClass() == Pawn.class){
+            ((Pawn) piece).hasMoved();
+        }
     }
 
     private boolean isCellEmpty(int posX, int posY){
@@ -96,6 +99,7 @@ public class Board implements ChessController {
     }
 
     private void setUpTeam(Player player){
+
         // Par soucis de lisibilité.
         Side side = player.getSide();
 

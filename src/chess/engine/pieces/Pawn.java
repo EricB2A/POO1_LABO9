@@ -19,6 +19,7 @@ public class Pawn extends Piece {
 
     @Override
     public List<Move> getMoves(int x, int y) {
+
         Board board = getOwner().getBoard();
         List<Move> moves = new ArrayList<Move>();
         int deltaPlayer = getOwner().getSide() == Side.TOP ? 1 : -1;
@@ -32,6 +33,10 @@ public class Pawn extends Piece {
         if(board.isCellFree(x, y +  deltaPlayer)){
             moves.add(new Move(x, y, x, y +  deltaPlayer));
         }
+
         return moves;
+    }
+    public void hasMoved() {
+        this.firstMove = false;
     }
 }
