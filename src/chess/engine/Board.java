@@ -125,4 +125,7 @@ public class Board implements ChessController {
         // Queen
         board[4][side.position] = new Queen(player);
     }
+    public boolean isCellFree(int x, int y ) {
+        return board[x][y] == null;
+    }
 }
