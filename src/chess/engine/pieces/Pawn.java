@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends Piece {
-    private boolean firstMove ;
+    private boolean firstMove;
 
     public Pawn(Player owner) {
         super(PieceType.PAWN, owner);
@@ -37,6 +37,11 @@ public class Pawn extends Piece {
         return moves;
     }
     public void hasMoved() {
+        this.firstMove = false;
+    }
+}
+
+    void hasMoved() {
         this.firstMove = false;
     }
 }

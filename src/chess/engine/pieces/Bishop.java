@@ -15,6 +15,10 @@ public class Bishop extends Piece {
     @Override
     public List<Move> getMoves(int x, int y) {
         List<Move> moves = new ArrayList<Move>();
+        for(int i = 0; i < 7; ++i){
+            
+            
+        }
         return moves;
     }
 }
