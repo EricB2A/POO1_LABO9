@@ -9,22 +9,15 @@ public class Board implements ChessController {
 
     private int N_COTE = 8;
     private ChessView view;
+
+    public Playable[][] getBoard() {
+        return board;
+    }
+
     private Playable board[][];
     private Player turn; //NOTE: on peut faire mieux. A voir.
     private Player player1;
     private Player player2;
-
-    //TODO: très C++ comme code.. à voir si c'est une solution viable.
-    private enum side {
-        TOP(0), // Première rangée. On commence l'indexation à 0 car nous ne sommes pas de animaux.
-        //TODO: trouver un moyen pour pouvoir utiliser "N_COTE - 1".
-        BOTTOM(7); // Dernière rangée.
-
-        side(int i) {
-            this.position = i;
-        }
-        public final int position;
-    }
 
     @Override
     public void start(ChessView view) {
@@ -42,7 +35,7 @@ public class Board implements ChessController {
         }
 
         Piece toMove = (Piece) board[fromX][fromY];
-        if(isItsTurn(toMove) && toMove.checkMove(fromX, fromY, toX, toY)){
+        if(isItsTurn(toMove) && toMove.getMoves(fromX, toY)){
             removePieceAt(fromX, fromY);
             placePieceAt(toMove, toX, toY);
             endTurn();
@@ -79,10 +72,10 @@ public class Board implements ChessController {
     @Override
     public void newGame() {
         board = new Playable[N_COTE][N_COTE];
-        Player player1 = new Player(PlayerColor.BLACK);
-        Player player2 = new Player(PlayerColor.WHITE);
-        setUpTeam(player1, side.TOP);
-        setUpTeam(player2, side.BOTTOM);
+        Player player1 = new Player(PlayerColor.WHITE, Side.TOP, this);
+        Player player2 = new Player(PlayerColor.BLACK, Side.BOTTOM, this);
+        setUpTeam(player1);
+        setUpTeam(player2);
 
         for(int i = 0; i < N_COTE; ++i){
             for(int j = 0; j < N_COTE; ++j){
@@ -95,10 +88,13 @@ public class Board implements ChessController {
 
         this.player1 = player1;
         this.player2 = player2;
-        this.turn = player2; // Le blanc commence.
+        this.turn = player1; // Le blanc commence.
     }
 
-    private void setUpTeam(Player player, side side){
+    private void setUpTeam(Player player){
+        // Par soucis de lisibilité.
+        Side side = player.getSide();
+
         // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
         int deltaPlayer = side == side.TOP ? 1 : -1;
 

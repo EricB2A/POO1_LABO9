@@ -1,7 +1,11 @@
 package chess.engine;
 
+import chess.engine.pieces.Move;
+
+import java.util.List;
+
 public interface Playable {
-    boolean checkMove(int fromX, int fromY, int toX, int toY);
+    List<Move> getMoves(int x, int y);
 
     String toString();
 }

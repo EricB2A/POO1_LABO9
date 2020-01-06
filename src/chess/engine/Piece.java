@@ -17,9 +17,7 @@ public abstract class Piece implements Playable {
         }
         this.type = type;
         this.owner = owner;
-
     }
-
 
     public Player getOwner() {
         return owner;

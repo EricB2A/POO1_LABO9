@@ -10,7 +10,7 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean checkMove(int fromX, int fromY, int toX, int toY) {
-        return true;
+    public List<Move> getMoves(int x, int y) {
+        return list<Move>
     }
 }
