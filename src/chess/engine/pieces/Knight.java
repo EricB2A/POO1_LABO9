@@ -1,6 +1,7 @@
 package chess.engine.pieces;
 
 import chess.PieceType;
+import chess.engine.Move;
 import chess.engine.Piece;
 import chess.engine.Player;
 

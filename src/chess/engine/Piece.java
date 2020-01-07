@@ -26,4 +26,5 @@ public abstract class Piece implements Playable {
     public PieceType getType() {
         return type;
     }
+
 }

@@ -1,20 +1,17 @@
 package chess.engine.pieces;
 
 import chess.PieceType;
-import chess.engine.Board;
-import chess.engine.Piece;
-import chess.engine.Playable;
-import chess.engine.Player;
+import chess.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends Piece {
-    private boolean firstMove;
+    private boolean hasMoved;
 
     public Pawn(Player owner) {
         super(PieceType.PAWN, owner);
-        this.firstMove = true;
+        this.hasMoved = false;
     }
 
     @Override
@@ -25,7 +22,7 @@ public class Pawn extends Piece {
         int deltaPlayer = getOwner().getSide() == Side.TOP ? 1 : -1;
 
         // Avancer.
-        if(firstMove){
+        if(!hasMoved){
             if(board.isCellFree(x, y +2 * deltaPlayer )){
                 moves.add(new Move(x, y, x, y + 2 * deltaPlayer));
             }
@@ -36,12 +33,8 @@ public class Pawn extends Piece {
 
         return moves;
     }
-    public void hasMoved() {
-        this.firstMove = false;
-    }
-}
 
-    void hasMoved() {
-        this.firstMove = false;
+    public boolean hasMoved(){
+        return hasMoved;
     }
 }

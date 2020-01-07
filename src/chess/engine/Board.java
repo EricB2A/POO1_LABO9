@@ -7,12 +7,17 @@ import chess.engine.pieces.*;
 
 public class Board implements ChessController {
 
+    public int getDimension() {
+        return N_COTE;
+    }
+
     private int N_COTE = 8;
     private ChessView view;
 
     public Playable[][] getBoard() {
         return board;
     }
+
 
     private Playable board[][];
     private Player turn; //NOTE: on peut faire mieux. A voir.
@@ -29,6 +34,7 @@ public class Board implements ChessController {
     }
 
     @Override
+    //TODO: Parfois le déplacement ne fonctionne pas. Sombre, très sombre.
     public boolean move(int fromX, int fromY, int toX, int toY) {
         if(isCellEmpty(fromX, fromY)){
             return false;
@@ -41,11 +47,11 @@ public class Board implements ChessController {
                     removePieceAt(fromX, fromY);
                     placePieceAt(toMove, toX, toY);
                     endTurn();
+                    return true;
                 }
             }
         }
-
-        return true;
+        return false;
     }
 
     private boolean isItsTurn(Piece piece){
