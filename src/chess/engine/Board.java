@@ -5,6 +5,8 @@ import chess.ChessView;
 import chess.PlayerColor;
 import chess.engine.pieces.*;
 
+import javax.swing.*;
+
 public class Board implements ChessController {
 
     public int getDimension() {
@@ -23,6 +25,8 @@ public class Board implements ChessController {
     private Player turn; //NOTE: on peut faire mieux. A voir.
     private Player player1;
     private Player player2;
+    private Move lastMove;
+
 
     @Override
     public void start(ChessView view) {
@@ -46,6 +50,29 @@ public class Board implements ChessController {
                 if(move.equals(toX, toY)){
                     removePieceAt(fromX, fromY);
                     placePieceAt(toMove, toX, toY);
+                    if(move.getSpecialMove() != null){
+                        switch(move.getSpecialMove())
+                        {
+                            case PAWN_EN_PASSANT:
+                                // todo redondant voir plus bas => faire fonction ? library class Utils ?
+                                int deltaPlayer = turn.getSide() == Side.TOP ? 1 : -1;
+                                removePieceAt(toX, toY - deltaPlayer );
+                                break;
+
+                            case PAWN_PROMOTION:
+                                System.out.println("Pion: promotion possible");
+                                ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
+                                        new Queen(turn), new Bishop(turn), new Rook(turn), new Knight(turn));
+                                if(promoPiece != null){
+                                    System.out.println("Pion: soldat promu");
+                                    removePieceAt(toX, toY);
+                                    placePieceAt((Piece) promoPiece, toX, toY);
+                                }
+                                break;
+                        }
+                    }
+
+                    lastMove = move;
                     endTurn();
                     return true;
                 }
@@ -64,6 +91,8 @@ public class Board implements ChessController {
     
     private void removePieceAt(int posX, int posY){
         if(isCellEmpty(posX, posY)){
+            System.out.println(posX);
+            System.out.println(posY);
             throw new RuntimeException("Piece is introuvable");
         }
         board[posX][posY] = null;
@@ -87,6 +116,7 @@ public class Board implements ChessController {
         board = new Playable[N_COTE][N_COTE];
         Player player1 = new Player(PlayerColor.WHITE, Side.TOP, this);
         Player player2 = new Player(PlayerColor.BLACK, Side.BOTTOM, this);
+
         setUpTeam(player1);
         setUpTeam(player2);
 
@@ -109,9 +139,10 @@ public class Board implements ChessController {
         // Par soucis de lisibilité.
         Side side = player.getSide();
 
-        // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
-        int deltaPlayer = side == side.TOP ? 1 : -1;
 
+        // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
+
+        int deltaPlayer = side == Side.TOP ? 1 : -1;
         // Pawn
         for(int i = 0; i < N_COTE; ++i){
             board[i][side.position + deltaPlayer] = new Pawn(player);
@@ -136,6 +167,14 @@ public class Board implements ChessController {
         board[4][side.position] = new Queen(player);
     }
     public boolean isCellFree(int x, int y ) {
+        if(x >= N_COTE || y >= N_COTE) throw new RuntimeException("Case hors board");
         return board[x][y] == null;
+    }
+    public Move getLastMove(){
+        return lastMove;
+    }
+    public Playable getPiece(int x, int y ){
+        // todo : vérifier que le range ok ? et dans les autres classes faut-il le faire ?
+        return board[x][y];
     }
 }

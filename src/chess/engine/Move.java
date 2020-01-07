@@ -1,10 +1,13 @@
 package chess.engine;
 
+import chess.engine.pieces.SpecialMove;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Move {
     private int fromX, fromY, toX, toY;
+    private SpecialMove specialMove;
 
     public Move(int fromX, int fromY, int toX, int toY){
         this.fromX = fromX; //TODO: from nécessaire ?
@@ -21,22 +24,34 @@ public class Move {
         return (x >= 0 && x < dimension && y > 0 && y < dimension);
     }
 
-    public static void getLine(int x, int y, int deltaX, int deltaY, List<Move> moves, Board board){
+    public static void getLine(int x, int y, int deltaX, int deltaY, List<Move> moves, Board board) {
         Playable chessBoard[][] = board.getBoard();
         int xx = x + deltaX;
         int yy = y + deltaY;
-        while(inBound(xx, yy, board.getDimension())){
+        while (inBound(xx, yy, board.getDimension())) {
             Piece piece = (Piece) chessBoard[xx][yy];
-            if(piece == null){
+            if (piece == null) {
                 moves.add(new Move(x, y, xx, yy));
-            }else if(piece.getOwner().getColor() != ((Piece) chessBoard[x][y]).getOwner().getColor()){
+            } else if (piece.getOwner().getColor() != ((Piece) chessBoard[x][y]).getOwner().getColor()) {
                 moves.add(new Move(x, y, xx, yy));
                 break; // On ne peut aller plus loin.
-            }else{
+            } else {
                 break;
             }
             xx += deltaX;
             yy += deltaY;
         }
     }
+
+    public Move(int fromX, int fromY, int toX, int toY, SpecialMove specialMove){
+        this(fromX, fromY, toX, toY);
+        this.specialMove = specialMove;
+    }
+    public SpecialMove getSpecialMove(){
+        return specialMove;
+    }
+
+    public int getToX(){return toX;};
+    public int getToY(){return toY;};
+
 }
