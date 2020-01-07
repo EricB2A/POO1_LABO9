@@ -1,5 +1,6 @@
 package chess.engine.pieces;
 
+import chess.ChessView;
 import chess.PieceType;
 import chess.engine.Board;
 import chess.engine.Move;
@@ -9,7 +10,7 @@ import chess.engine.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Knight extends Piece {
+public class Knight extends Piece implements ChessView.UserChoice {
     public Knight(Player owner) {
         super(PieceType.KNIGHT, owner);
     }
@@ -30,5 +31,10 @@ public class Knight extends Piece {
         Move.addMove(x, y, x - 2, y - 1, moves, board);
 
         return moves;
+    }
+
+    @Override
+    public String textValue() {
+        return "Cavalier";
     }
 }

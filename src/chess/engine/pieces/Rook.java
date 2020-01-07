@@ -1,5 +1,6 @@
 package chess.engine.pieces;
 
+import chess.ChessView;
 import chess.PieceType;
 import chess.engine.Board;
 import chess.engine.Move;
@@ -9,7 +10,7 @@ import chess.engine.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rook extends Piece {
+public class Rook extends Piece implements ChessView.UserChoice {
     public Rook(Player owner) {
         super(PieceType.ROOK, owner);
     }
@@ -29,5 +30,10 @@ public class Rook extends Piece {
         Move.addMoves(x, y, -1, 0, moves, chessBoard);
         
         return moves;
+    }
+
+    @Override
+    public String textValue() {
+        return "Tour";
     }
 }

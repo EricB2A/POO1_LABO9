@@ -1,10 +1,13 @@
 package chess.engine;
 
+import chess.engine.pieces.SpecialMove;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Move {
     private int fromX, fromY, toX, toY;
+    private SpecialMove specialMove;
 
     public Move(int fromX, int fromY, int toX, int toY){
         this.fromX = fromX; //TODO: from nécessaire ?
@@ -52,4 +55,16 @@ public class Move {
             toY += deltaY;
         }
     }
+
+    public Move(int fromX, int fromY, int toX, int toY, SpecialMove specialMove){
+        this(fromX, fromY, toX, toY);
+        this.specialMove = specialMove;
+    }
+    public SpecialMove getSpecialMove(){
+        return specialMove;
+    }
+
+    public int getToX(){return toX;};
+    public int getToY(){return toY;};
+
 }

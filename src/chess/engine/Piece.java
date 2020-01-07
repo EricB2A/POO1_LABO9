@@ -8,11 +8,11 @@ public abstract class Piece implements Playable {
     private Player owner;
     private PieceType type;
 
-    public Piece(PieceType type, Player owner){
-        if(owner == null){
+    public Piece(PieceType type, Player owner) {
+        if (owner == null) {
             throw new RuntimeException("The joueur is nul !");
         }
-        if(type == null){
+        if (type == null) {
             throw new RuntimeException("Piece type is vide.");
         }
         this.type = type;

@@ -1,12 +1,13 @@
 package chess.engine.pieces;
 
+import chess.ChessView;
 import chess.PieceType;
 import chess.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bishop extends Piece {
+public class Bishop extends Piece implements ChessView.UserChoice {
     public Bishop(Player owner) {
         super(PieceType.BISHOP, owner);
     }
@@ -28,5 +29,10 @@ public class Bishop extends Piece {
         Move.addMoves(x, y, -1, -1, moves, chessBoard);
 
         return moves;
+    }
+
+    @Override
+    public String textValue() {
+        return "Fou";
     }
 }

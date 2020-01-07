@@ -1,12 +1,13 @@
 package chess.engine.pieces;
 
+import chess.ChessView;
 import chess.PieceType;
 import chess.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Queen extends Piece {
+public class Queen extends Piece implements ChessView.UserChoice {
     public Queen(Player owner) {
         super(PieceType.QUEEN, owner);
     }
@@ -35,5 +36,8 @@ public class Queen extends Piece {
         return moves;
     }
 
-    
+    @Override
+    public String textValue() {
+        return "Reine";
+    }
 }
