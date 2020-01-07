@@ -12,20 +12,18 @@ public class Bishop extends Piece implements ChessView.UserChoice {
         super(PieceType.BISHOP, owner);
     }
 
-
-    
     @Override
     public List<Move> getMoves(int x, int y) {
         List<Move> moves = new ArrayList<Move>();
         Board chessBoard = this.getOwner().getBoard();
 
-        // Diagonale inférieure - droite.
+        // Diagonale droite inférieure.
         Move.addMoves(x, y, 1, 1, moves, chessBoard);
-        // Diagonale supérieure - droite.
+        // Diagonale droite supérieure.
         Move.addMoves(x, y, 1, -1, moves, chessBoard);
-        // Diagonale inférieure - gauche.
+        // Diagonale gauche inférieure.
         Move.addMoves(x, y, -1, 1, moves, chessBoard);
-        // Diagonale supérieure - gauche.
+        // Diagonale gauche supérieure.
         Move.addMoves(x, y, -1, -1, moves, chessBoard);
 
         return moves;

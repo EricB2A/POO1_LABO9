@@ -30,7 +30,7 @@ public class Pawn extends Piece {
         }
 
         // avance un coup
-        if(board.isCellFree(x, y +  deltaPlayer)){
+        if(board.isCellFree(x, y + deltaPlayer)){
             if(canBePromoted(y)){
                 moves.add(new Move(x, y, x, y +  deltaPlayer, SpecialMove.PAWN_PROMOTION));
 
@@ -41,6 +41,13 @@ public class Pawn extends Piece {
         }
 
         // attaque droite & gauche
+        if(canBePromoted(y)){
+            Move.addMove(x, y, x+1, y+deltaPlayer, moves, board, SpecialMove.PAWN_PROMOTION);
+
+        }else{
+            Move.addMove(x, y, x+1, y+deltaPlayer, moves, board);
+        }
+
         if(! board.isCellFree(x + 1 , y + deltaPlayer) && ((Piece) board.getPiece(x + 1 , y + deltaPlayer)).getOwner() != getOwner()){
             if(canBePromoted(y)) {
                 moves.add(new Move(x,y,x + 1, y + deltaPlayer,SpecialMove.PAWN_PROMOTION));

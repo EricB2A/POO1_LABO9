@@ -16,7 +16,7 @@ public class King extends Piece {
 
     @Override
     public List<Move> getMoves(int x, int y) {
-        List<Move> moves = new ArrayList<Move>();
+        List<Move> moves = new ArrayList<>();
         Board board = this.getOwner().getBoard();
         
         Move.addMove(x, y, x+1, y+1, moves, board);

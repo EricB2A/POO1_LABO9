@@ -18,7 +18,7 @@ public class Knight extends Piece implements ChessView.UserChoice {
     @Override
     public List<Move> getMoves(int x, int y) {
         Board board = this.getOwner().getBoard();
-        List<Move> moves = new ArrayList<Move>();
+        List<Move> moves = new ArrayList<>();
 
         Move.addMove(x, y, x + 1, y + 2, moves, board);
         Move.addMove(x, y, x - 1, y + 2, moves, board);

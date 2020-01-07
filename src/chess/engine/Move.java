@@ -16,6 +16,11 @@ public class Move {
         this.toY = toY;
     }
 
+    public Move(int fromX, int fromY, int toX, int toY, SpecialMove specialMove){
+        this(fromX, fromY, toX, toY);
+        this.specialMove = specialMove;
+    }
+
     public boolean equals(int x, int y){
         return toX == x && toY == y;
     }
@@ -34,6 +39,9 @@ public class Move {
                 moves.add(new Move(fromX, fromY, toX, toY));
             }
         }
+    }
+    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, Board board, SpecialMove specialMove){
+        
     }
 
     public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, Board board){
@@ -56,10 +64,7 @@ public class Move {
         }
     }
 
-    public Move(int fromX, int fromY, int toX, int toY, SpecialMove specialMove){
-        this(fromX, fromY, toX, toY);
-        this.specialMove = specialMove;
-    }
+
     public SpecialMove getSpecialMove(){
         return specialMove;
     }

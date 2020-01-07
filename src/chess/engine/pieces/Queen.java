@@ -16,21 +16,21 @@ public class Queen extends Piece implements ChessView.UserChoice {
         List<Move> moves = new ArrayList<Move>();
         Board chessBoard = this.getOwner().getBoard();
 
-        // Diagonale inférieure - droite.
+        // Diagonale droite inférieure.
         Move.addMoves(x, y, 1, 1, moves, chessBoard);
-        // Diagonale inférieure - gauche.
+        // Diagonale droite supérieure.
         Move.addMoves(x, y, 1, -1, moves, chessBoard);
-        // Diagonale supérieur - droite
+        // Diagonale gauche inférieure.
         Move.addMoves(x, y, -1, 1, moves, chessBoard);
-        // Diagonale supérieure - gauche
+        // Diagonale gauche supérieure.
         Move.addMoves(x, y, -1, -1, moves, chessBoard);
-        // Ligne droite.
-        Move.addMoves(x, y, 0, 1, moves, chessBoard);
-        // Ligne gauche.
-        Move.addMoves(x, y, 0, -1, moves, chessBoard);
         // Ligne bas.
-        Move.addMoves(x, y, 1, 0, moves, chessBoard);
+        Move.addMoves(x, y, 0, 1, moves, chessBoard);
         // Ligne haut.
+        Move.addMoves(x, y, 0, -1, moves, chessBoard);
+        // Ligne droite.
+        Move.addMoves(x, y, 1, 0, moves, chessBoard);
+        // Ligne gauche.
         Move.addMoves(x, y, -1, 0, moves, chessBoard);
 
         return moves;
