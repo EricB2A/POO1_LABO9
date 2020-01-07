@@ -18,7 +18,6 @@ public class Board implements ChessController {
         return board;
     }
 
-
     private Playable board[][];
     private Player turn; //NOTE: on peut faire mieux. A voir.
     private Player player1;

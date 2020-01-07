@@ -18,15 +18,15 @@ public class Rook extends Piece {
     public List<Move> getMoves(int x, int y) {
         List<Move> moves = new ArrayList<Move>();
         Board chessBoard = this.getOwner().getBoard();
-
+        
         // Ligne droite.
-        Move.getLine(x, y, 0, 1, moves, chessBoard);
+        Move.addMoves(x, y, 0, 1, moves, chessBoard);
         // Ligne gauche.
-        Move.getLine(x, y, 0, -1, moves, chessBoard);
+        Move.addMoves(x, y, 0, -1, moves, chessBoard);
         // Ligne bas.
-        Move.getLine(x, y, 1, 0, moves, chessBoard);
+        Move.addMoves(x, y, 1, 0, moves, chessBoard);
         // Ligne haut.
-        Move.getLine(x, y, -1, 0, moves, chessBoard);
+        Move.addMoves(x, y, -1, 0, moves, chessBoard);
         
         return moves;
     }

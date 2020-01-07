@@ -18,25 +18,38 @@ public class Move {
     }
 
     public static boolean inBound(int x, int y, int dimension){
-        return (x >= 0 && x < dimension && y > 0 && y < dimension);
+        return (x >= 0 && x < dimension) && (y > 0 && y < dimension);
     }
 
-    public static void getLine(int x, int y, int deltaX, int deltaY, List<Move> moves, Board board){
+    // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
+    // mais pas sur cellule avec pièce alliée.
+    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, Board board){
         Playable chessBoard[][] = board.getBoard();
-        int xx = x + deltaX;
-        int yy = y + deltaY;
-        while(inBound(xx, yy, board.getDimension())){
-            Piece piece = (Piece) chessBoard[xx][yy];
+        if(Move.inBound(toX, toY, board.getDimension())){
+            Piece piece = (Piece) board.getBoard()[toX][toY];
+            if(piece == null || piece.getOwner().getColor() != ((Piece) chessBoard[fromX][fromY]).getOwner().getColor()){
+                moves.add(new Move(fromX, fromY, toX, toY));
+            }
+        }
+    }
+
+    public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, Board board){
+        Playable chessBoard[][] = board.getBoard();
+        int toX = fromX + deltaX;
+        int toY = fromY + deltaY;
+        while(inBound(toX, toY, board.getDimension())){
+            Piece piece = (Piece) chessBoard[toX][toY];
             if(piece == null){
-                moves.add(new Move(x, y, xx, yy));
-            }else if(piece.getOwner().getColor() != ((Piece) chessBoard[x][y]).getOwner().getColor()){
-                moves.add(new Move(x, y, xx, yy));
-                break; // On ne peut aller plus loin.
+                moves.add(new Move(fromX, fromY, toX, toY));
+            }else if(piece.getOwner().getColor() != ((Piece) chessBoard[fromX][fromY]).getOwner().getColor()){
+                // Oh wow, une pièce adverse.
+                moves.add(new Move(fromX, fromY, toX, toY));
+                break; // On ne peut aller plus loin, quittons la boucle !
             }else{
                 break;
             }
-            xx += deltaX;
-            yy += deltaY;
+            toX += deltaX;
+            toY += deltaY;
         }
     }
 }
