@@ -2,11 +2,12 @@ package chess.engine;
 
 import chess.PieceType;
 
-public abstract class Piece implements Playable {
+import java.util.List;
+
 public abstract class Piece  {
     //NOTE: Ce serait peut-être plus malin de changer l'ordre de lisibilité,
     //      vu que a l'emplacement des pièces dans le Board et pas dans la pièce en elle-même.. à voir!
-    private Player owner;
+    protected Player owner;
     private PieceType type;
 
     public Piece(PieceType type, Player owner) {
@@ -19,6 +20,7 @@ public abstract class Piece  {
         this.type = type;
         this.owner = owner;
     }
+    public abstract List<Move> getMoves(int toX, int toY);
 
     public Player getOwner() {
         return owner;
