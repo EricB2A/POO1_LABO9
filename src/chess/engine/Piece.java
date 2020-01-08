@@ -3,6 +3,7 @@ package chess.engine;
 import chess.PieceType;
 
 public abstract class Piece implements Playable {
+public abstract class Piece  {
     //NOTE: Ce serait peut-être plus malin de changer l'ordre de lisibilité,
     //      vu que a l'emplacement des pièces dans le Board et pas dans la pièce en elle-même.. à voir!
     private Player owner;

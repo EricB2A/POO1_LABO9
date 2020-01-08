@@ -45,7 +45,7 @@ public class Move {
     }
 
     public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, Board board){
-        Playable chessBoard[][] = board.getBoard();
+        Piece[][] chessBoard = board.getBoard();
         int toX = fromX + deltaX;
         int toY = fromY + deltaY;
         while(inBound(toX, toY, board.getDimension())){

@@ -16,11 +16,11 @@ public class Board implements ChessController {
     private int N_COTE = 8;
     private ChessView view;
 
-    public Playable[][] getBoard() {
+    public Piece[][] getBoard() {
         return board;
     }
 
-    private Playable board[][];
+    private Piece[][] board;
     private Player turn; //NOTE: on peut faire mieux. A voir.
     private Player player1;
     private Player player2;
@@ -112,7 +112,7 @@ public class Board implements ChessController {
 
     @Override
     public void newGame() {
-        board = new Playable[N_COTE][N_COTE];
+        board = new Piece[N_COTE][N_COTE];
         Player player1 = new Player(PlayerColor.WHITE, Side.TOP, this);
         Player player2 = new Player(PlayerColor.BLACK, Side.BOTTOM, this);
 
@@ -172,7 +172,7 @@ public class Board implements ChessController {
     public Move getLastMove(){
         return lastMove;
     }
-    public Playable getPiece(int x, int y ){
+    public Piece getPiece(int x, int y ){
         // todo : vérifier que le range ok ? et dans les autres classes faut-il le faire ?
         return board[x][y];
     }
