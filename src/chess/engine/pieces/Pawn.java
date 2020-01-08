@@ -8,7 +8,7 @@ import java.util.List;
 
 /*TODO: factoriser la promotion(3x copier/coller)
  * */
-public class Pawn extends Piece {
+public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
     private int deltaPlayer = getOwner().getSide() == Side.TOP ? 1 : -1;
     private Board board;
@@ -60,6 +60,11 @@ public class Pawn extends Piece {
             }
         }
         return moves;
+    }
+
+    @Override
+    public boolean hasAlreadyMoved() {
+        return !hasMoved;
     }
 
     public void hasMoved() {

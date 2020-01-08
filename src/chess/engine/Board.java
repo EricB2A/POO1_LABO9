@@ -29,7 +29,7 @@ public class Board implements ChessController {
 
     @Override
     public void start(ChessView view) {
-        if(view == null){
+        if (view == null) {
             throw new RuntimeException("Wtf is this view.");
         }
         view.startView();
@@ -39,34 +39,49 @@ public class Board implements ChessController {
     @Override
     //TODO: Parfois le déplacement ne fonctionne pas. Sombre, très sombre.
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        if(isCellEmpty(fromX, fromY)){
+        if (isCellEmpty(fromX, fromY)) {
             return false;
         }
 
         Piece toMove = (Piece) board[fromX][fromY];
-        if(isItsTurn(toMove)){
-            for (Move move : toMove.getMoves(fromX, fromY)){
-                if(move.equals(toX, toY)){
+        if (isItsTurn(toMove)) {
+            for (Move move : toMove.getMoves(fromX, fromY)) {
+                if (move.equals(toX, toY)) {
                     removePieceAt(fromX, fromY);
                     placePieceAt(toMove, toX, toY);
-                    if(move.getSpecialMove() != null){
-                        switch(move.getSpecialMove())
-                        {
+                    if (move.getSpecialMove() != null) {
+                        System.out.println("never here");
+                        switch (move.getSpecialMove()) {
                             case PAWN_EN_PASSANT:
                                 // todo redondant voir plus bas => faire fonction ? library class Utils ?
                                 int deltaPlayer = turn.getSide() == Side.TOP ? 1 : -1;
-                                removePieceAt(toX, toY - deltaPlayer );
+                                removePieceAt(toX, toY - deltaPlayer);
                                 break;
 
                             case PAWN_PROMOTION:
                                 System.out.println("Pion: promotion possible");
                                 ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
                                         new Queen(turn), new Bishop(turn), new Rook(turn), new Knight(turn));
-                                if(promoPiece != null){
+                                if (promoPiece != null) {
                                     System.out.println("Pion: soldat promu");
                                     removePieceAt(toX, toY);
                                     placePieceAt((Piece) promoPiece, toX, toY);
                                 }
+                                break;
+                            // TODO voir si factorisable
+                            case KING_LONG_CASTLED:
+                                System.out.println("bouge tour");
+                                Rook rRook = (Rook) board[toX + 2][toY];
+                                removePieceAt(toX + 2, toY);
+                                placePieceAt(rRook, toX - 1, toY);
+                                break;
+
+                            case KING_SHORT_CASTLED:
+                                System.out.println("bouge tour");
+
+                                Rook lRook = (Rook) board[toX - 1][toY];
+                                removePieceAt(toX - 1, toY);
+                                placePieceAt(lRook, toX + 1, toY);
                                 break;
                         }
                     }
@@ -80,16 +95,16 @@ public class Board implements ChessController {
         return false;
     }
 
-    private boolean isItsTurn(Piece piece){
+    private boolean isItsTurn(Piece piece) {
         return piece.getOwner() == turn;
     }
 
-    private void endTurn(){
+    private void endTurn() {
         turn = turn == player1 ? player2 : player1;
     }
-    
-    private void removePieceAt(int posX, int posY){
-        if(isCellEmpty(posX, posY)){
+
+    private void removePieceAt(int posX, int posY) {
+        if (isCellEmpty(posX, posY)) {
             System.out.println(posX);
             System.out.println(posY);
             throw new RuntimeException("Piece is introuvable");
@@ -98,15 +113,18 @@ public class Board implements ChessController {
         view.removePiece(posX, posY);
     }
 
-    private void placePieceAt(Piece piece, int posX, int posY){
+    private void placePieceAt(Piece piece, int posX, int posY) {
         board[posX][posY] = piece;
         view.putPiece(piece.getType(), piece.getOwner().getColor(), posX, posY);
-        if(piece.getClass() == Pawn.class){
-            ((Pawn) piece).hasMoved();
+
+        // On marque la pièce comme bougée si nécessaire
+        if (SpecialFirstMove.class.isAssignableFrom(piece.getClass())) {
+            SpecialFirstMove spePiece = (SpecialFirstMove) piece;
+            spePiece.hasMoved();
         }
     }
 
-    private boolean isCellEmpty(int posX, int posY){
+    private boolean isCellEmpty(int posX, int posY) {
         return board[posX][posY] == null;
     }
 
@@ -119,9 +137,9 @@ public class Board implements ChessController {
         setUpTeam(player1);
         setUpTeam(player2);
 
-        for(int i = 0; i < N_COTE; ++i){
-            for(int j = 0; j < N_COTE; ++j){
-                if(board[i][j] != null){
+        for (int i = 0; i < N_COTE; ++i) {
+            for (int j = 0; j < N_COTE; ++j) {
+                if (board[i][j] != null) {
                     Piece piece = (Piece) board[i][j];
                     view.putPiece(piece.getType(), piece.getOwner().getColor(), i, j);
                 }
@@ -133,7 +151,7 @@ public class Board implements ChessController {
         this.turn = player1; // Le blanc commence.
     }
 
-    private void setUpTeam(Player player){
+    private void setUpTeam(Player player) {
 
         // Par soucis de lisibilité.
         Side side = player.getSide();
@@ -143,7 +161,7 @@ public class Board implements ChessController {
 
         int deltaPlayer = side == Side.TOP ? 1 : -1;
         // Pawn
-        for(int i = 0; i < N_COTE; ++i){
+        for (int i = 0; i < N_COTE; ++i) {
             board[i][side.position + deltaPlayer] = new Pawn(player);
         }
 
@@ -165,14 +183,17 @@ public class Board implements ChessController {
         // Queen
         board[4][side.position] = new Queen(player);
     }
-    public boolean isCellFree(int x, int y ) {
-        if(x >= N_COTE || y >= N_COTE ) throw new RuntimeException("Case hors board");
+
+    public boolean isCellFree(int x, int y) {
+        if (x >= N_COTE || y >= N_COTE) throw new RuntimeException("Case hors board");
         return board[x][y] == null;
     }
-    public Move getLastMove(){
+
+    public Move getLastMove() {
         return lastMove;
     }
-    public Piece getPiece(int x, int y ){
+
+    public Piece getPiece(int x, int y) {
         // todo : vérifier que le range ok ? et dans les autres classes faut-il le faire ?
         return board[x][y];
     }
