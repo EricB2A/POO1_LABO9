@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece implements ChessView.UserChoice, SpecialFirstMove {
+    private boolean hasMoved = false;
+
     public Rook(Player owner, ChessBoard chessBoard) {
         super(PieceType.ROOK, owner, chessBoard);
     }
-
+    
     @Override
     public List<Move> getMoves(int x, int y) {
         List<Move> moves = new ArrayList<>();

@@ -28,21 +28,19 @@ public class Move {
 
     // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
     // mais pas sur cellule avec pièce alliée.
-    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, Board board){
-        addMove(fromX, fromY, toX, toY, moves, board, null);
+    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, ChessBoard chessBoard){
+        addMove(fromX, fromY, toX, toY, moves, chessBoard, null);
     }
-    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, Board board, SpecialMove specialMove){
-        Piece[][] chessBoard = board.getBoard();
-        if(Move.inBound(toX, toY, board.getDimension())) {
-            Piece piece = (Piece) board.getBoard()[toX][toY];
-            if (piece == null || piece.getOwner().getColor() != ((Piece) chessBoard[fromX][fromY]).getOwner().getColor()) {
-                moves.add(new Move(fromX, fromY, toX, toY, specialMove));
+    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, ChessBoard chessBoard, SpecialMove specialMove){
+        if(Move.inBound(toX, toY, chessBoard.getDimension())) {
+            Piece piece = chessBoard.getCellAt(toX, toY);
+            if (piece == null || piece.getOwner().getColor() != (chessBoard.getCellAt(fromX, fromY)).getOwner().getColor()) {
+                moves.add(new Move(toX, toY, specialMove));
             }
         }
     }
 
-    public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, Board board){
-        Piece[][] chessBoard = board.getBoard();
+    public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, ChessBoard chessBoard){
         int toX = fromX + deltaX;
         int toY = fromY + deltaY;
         while(inBound(toX, toY, chessBoard.getDimension())){

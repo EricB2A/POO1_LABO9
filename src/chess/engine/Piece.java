@@ -25,8 +25,6 @@ public abstract class Piece  {
         this.owner = owner;
         this.chessBoard = chessBoard;
     }
-    public abstract List<Move> getMoves(int toX, int toY);
-
     public abstract List<Move> getMoves(int x, int y);
 
     //TODO: à supprimer. on assigne un couleur à la pièce à la place.
