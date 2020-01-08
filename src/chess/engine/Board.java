@@ -166,7 +166,7 @@ public class Board implements ChessController {
         board[4][side.position] = new Queen(player);
     }
     public boolean isCellFree(int x, int y ) {
-        if(x >= N_COTE || y >= N_COTE) throw new RuntimeException("Case hors board");
+        if(x >= N_COTE || y >= N_COTE ) throw new RuntimeException("Case hors board");
         return board[x][y] == null;
     }
     public Move getLastMove(){
