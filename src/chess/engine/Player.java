@@ -7,29 +7,29 @@ public class Player {
     private PlayerColor color;
     //NOTE: Ok alors j'ai rajouté une référence à board depuis player pour le checkMove des pièces.
     //      A voir si c'est une solution "propre".
-    private Board board;
+    private ChessGame chessGame;
     private Side side;
 
-    public Player(PlayerColor color, Side side, Board board){
+    public Player(PlayerColor color, Side side, ChessGame chessGame){
         if(color == null){
             throw new RuntimeException("We need a color !");
         }
         if(side == null){
             throw new RuntimeException("We need a side !");
         }
-        if(board == null){
+        if(chessGame == null){
             throw new RuntimeException("We need a board to play !");
         }
         this.color = color;
         this.side = side;
-        this.board = board;
+        this.chessGame = chessGame;
     }
 
     public PlayerColor getColor() {
         return color;
     }
-    public Board getBoard(){
-        return board;
+    public ChessGame getChessGame(){
+        return chessGame;
     }
     public Side getSide(){
         return side;

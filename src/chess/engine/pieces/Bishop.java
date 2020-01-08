@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece implements ChessView.UserChoice {
-    public Bishop(Player owner) {
-        super(PieceType.BISHOP, owner);
+    public Bishop(Player owner, ChessBoard chessBoard) {
+        super(PieceType.BISHOP, owner, chessBoard);
     }
 
     @Override
     public List<Move> getMoves(int x, int y) {
         List<Move> moves = new ArrayList<Move>();
-        Board chessBoard = this.getOwner().getBoard();
+        ChessBoard chessBoard = getChessBoard();
 
         // Diagonale droite inférieure.
         Move.addMoves(x, y, 1, 1, moves, chessBoard);

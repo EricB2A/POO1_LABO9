@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece implements ChessView.UserChoice {
-    public Queen(Player owner) {
-        super(PieceType.QUEEN, owner);
+    public Queen(Player owner, ChessBoard chessBoard) {
+        super(PieceType.QUEEN, owner, chessBoard);
     }
 
     public List<Move> getMoves(int x, int y) {
         List<Move> moves = new ArrayList<Move>();
-        Board chessBoard = this.getOwner().getBoard();
+        ChessBoard chessBoard = this.getChessBoard();
 
         // Diagonale droite inférieure.
         Move.addMoves(x, y, 1, 1, moves, chessBoard);

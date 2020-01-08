@@ -1,7 +1,6 @@
 import chess.ChessController;
 import chess.ChessView;
-import chess.engine.Board;
-import chess.views.console.ConsoleView;
+import chess.engine.ChessGame;
 import chess.views.gui.GUIView;
 
 class StudentChess {
@@ -9,7 +8,7 @@ class StudentChess {
   public static void main(String[] args) {
 
     // 1. Création du contrôleur pour gérer le jeu d'échec
-    ChessController controller = new Board(); // Board est une classe faite et nommée par les étudiant
+    ChessController controller = new ChessGame(); // Board est une classe faite et nommée par les étudiant
 
     // 2. Création de la vue désirée
     ChessView view = new GUIView(controller); // ou console
