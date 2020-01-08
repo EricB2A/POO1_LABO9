@@ -7,7 +7,7 @@ import chess.engine.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rook extends Piece implements ChessView.UserChoice {
+public class Rook extends Piece implements ChessView.UserChoice, SpecialFirstMove {
     public Rook(Player owner, ChessBoard chessBoard) {
         super(PieceType.ROOK, owner, chessBoard);
     }
@@ -32,5 +32,11 @@ public class Rook extends Piece implements ChessView.UserChoice {
     @Override
     public String textValue() {
         return "Tour";
+    }
+    public void hasMoved() {
+        this.hasMoved = true;
+    }
+    public boolean hasAlreadyMoved(){
+        return !hasMoved;
     }
 }

@@ -8,9 +8,10 @@ import java.util.List;
 
 /*TODO: factoriser la promotion(3x copier/coller)
  * */
-public class Pawn extends Piece {
+public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
     private int deltaPlayer = getOwner().getSide() == Side.TOP ? 1 : -1;
+    private Board board;
 
     public Pawn(Player owner, ChessBoard chessBoard) {
         super(PieceType.PAWN, owner, chessBoard);
@@ -20,48 +21,21 @@ public class Pawn extends Piece {
     public List<Move> getMoves(int x, int y) {
 
         List<Move> moves = new ArrayList<Move>();
-        ChessBoard chessBoard = this.getChessBoard();
 
-        // Avancer 2 coups
-        if (!hasMoved) {
-            // on vérife que la case est libre en prenant soit de vérifier que aucune piece ne se situe en elle-même
-            // et sa case de destination
-            if (chessBoard.isCellEmpty(x, y + 2 * deltaPlayer) && chessBoard.isCellEmpty(x, y + deltaPlayer)) {
-                moves.add(new Move(x, y + 2 * deltaPlayer, SpecialMove.PAWN_FAST_MOVE));
+        SpecialMove specialMove = canBePromoted(y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
+        // avance 1 case avec possible promotion
+        if(board.isCellFree(x, y + deltaPlayer) ){
+            // avance de 2 cases
+            if(!hasMoved && board.isCellFree(x, y+ 2 * deltaPlayer)){
+                moves.add(new Move(x, y, x, y + 2 * deltaPlayer, SpecialMove.PAWN_FAST_MOVE));
             }
+            Move.addMove(x, y, x, y + deltaPlayer, moves, board, specialMove);
         }
-
-        // avance un coup
-        if (Move.inBound(x, y + deltaPlayer, chessBoard.getDimension()) && chessBoard.isCellEmpty(x, y + deltaPlayer)) {
-            if (canBePromoted(y + deltaPlayer)) {
-                moves.add(new Move(x, y + deltaPlayer, SpecialMove.PAWN_PROMOTION));
-
-            } else {
-                moves.add(new Move(x, y + deltaPlayer));
-            }
+        if (canAttack(x + 1, y + deltaPlayer)) {
+            Move.addMove(x, y, x + 1, y + deltaPlayer, moves, board, specialMove);
         }
-
-        // attaque droite
-        if (Move.inBound(x + 1, y + deltaPlayer, chessBoard.getDimension()) && !chessBoard.isCellEmpty(x + 1, y + deltaPlayer) && (chessBoard.getCellAt(x + 1, y + deltaPlayer)).getOwner() != getOwner()) {
-            if (canBePromoted(y + deltaPlayer)) {
-                moves.add(new Move(x + 1, y + deltaPlayer, SpecialMove.PAWN_PROMOTION));
-
-            } else {
-                moves.add(new Move(+ 1, y + deltaPlayer));
-            }
-
-        }
-        // attaque gauche
-        if (Move.inBound(x - 1, y + deltaPlayer, chessBoard.getDimension()) && !chessBoard.isCellEmpty(x - 1, y + deltaPlayer) && (chessBoard.getCellAt(x - 1, y + deltaPlayer)).getOwner() != getOwner()) {
-
-            if (canBePromoted(y + deltaPlayer)) {
-                moves.add(new Move(x - 1, y + deltaPlayer, SpecialMove.PAWN_PROMOTION));
-
-            } else {
-                moves.add(new Move(x - 1, y + deltaPlayer));
-
-            }
-
+        if (canAttack(x - 1, y + deltaPlayer)) {
+            Move.addMove(x, y, x - 1, y + deltaPlayer, moves, board, specialMove);
         }
 
         // prise en passant: on regarde si le dernier mouvement correspond à un déplacement de 2 (d'un pion évidemment)
@@ -70,20 +44,26 @@ public class Pawn extends Piece {
         Move lastMove = chessBoard.getLastMove();
         if (lastMove != null && lastMove.getSpecialMove() == SpecialMove.PAWN_FAST_MOVE) {
             if (lastMove.getToY() == y) {
-                // on ajoute la diagonale droite
-                if (Move.inBound(x + 1, y, chessBoard.getDimension()) && lastMove.getToX() == x + 1
-                        && chessBoard.isCellEmpty(x + 1, y + deltaPlayer)) {
 
-                    moves.add(new Move(x + 1, y + deltaPlayer, SpecialMove.PAWN_EN_PASSANT));
+                //on vérifie que la case destination est libre car sinon on pourrait manger 2 pièces d'un coup celle
+                // sur la case où on va + en passant
+                // diagonale droite
+                if (lastMove.getToX() == x + 1 && board.isCellFree(x + 1, y + deltaPlayer)) {
+                    Move.addMove(x, y, x + 1, y + deltaPlayer, moves, board, SpecialMove.PAWN_EN_PASSANT);
                 }
-                // diagonale gauche
-                else if (Move.inBound(x - 1, y, chessBoard.getDimension()) && lastMove.getToX() == x - 1
-                        && chessBoard.isCellEmpty(x - 1, y + deltaPlayer)) {
-                    moves.add(new Move(x - 1, y + deltaPlayer, SpecialMove.PAWN_EN_PASSANT));
+                // diagonale gauche (else if car impossible que le dernier mouvement soit et gauche et à droite)
+                else if (lastMove.getToX() == x - 1 && board.isCellFree(x - 1, y + deltaPlayer)) {
+                    Move.addMove(x, y, x - 1, y + deltaPlayer, moves, board, SpecialMove.PAWN_EN_PASSANT);
                 }
+
             }
         }
         return moves;
+    }
+
+    @Override
+    public boolean hasAlreadyMoved() {
+        return !hasMoved;
     }
 
     public void hasMoved() {
@@ -91,6 +71,11 @@ public class Pawn extends Piece {
     }
 
     private boolean canBePromoted(int y) {
-        return y  == 0 || y  == this.getChessBoard().getDimension() - 1;
+        Board board = getOwner().getBoard();
+        return y == 0 || y == board.getDimension() - 1;
+    }
+
+    private boolean canAttack(int toX, int toY) {
+        return Move.inBound(toX, toY, board.getDimension()) && !board.isCellFree(toX, toY) && board.getPiece(toX, toY).getOwner() != getOwner();
     }
 }

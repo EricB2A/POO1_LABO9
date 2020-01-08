@@ -4,10 +4,10 @@ import chess.PieceType;
 
 import java.util.List;
 
-public abstract class Piece {
+public abstract class Piece  {
     //NOTE: Ce serait peut-être plus malin de changer l'ordre de lisibilité,
     //      vu que a l'emplacement des pièces dans le Board et pas dans la pièce en elle-même.. à voir!
-    private Player owner;
+    protected Player owner;
     private PieceType type;
     private ChessBoard chessBoard;
 
@@ -25,6 +25,7 @@ public abstract class Piece {
         this.owner = owner;
         this.chessBoard = chessBoard;
     }
+    public abstract List<Move> getMoves(int toX, int toY);
 
     public abstract List<Move> getMoves(int x, int y);
 
