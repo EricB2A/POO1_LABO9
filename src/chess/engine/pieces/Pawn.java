@@ -23,17 +23,13 @@ public class Pawn extends Piece {
 
         List<Move> moves = new ArrayList<Move>();
 
-        //todo voir si factorisation encore possible entre mouvement de 2 et mouvement de 1
-
-        // Avancer 2 coups
-        // on vérife que la case destination est libre et que la piece n'ait pas encore bougé
-        if (!hasMoved && board.isCellFree(x,y + deltaPlayer) && board.isCellFree(x,y + 2 * deltaPlayer)) {
-            moves.add(new Move(x, y, x, y + 2 * deltaPlayer, SpecialMove.PAWN_FAST_MOVE));
-        }
-
         SpecialMove specialMove = canBePromoted(y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
-        // avance un coup avec possible promotion
+        // avance 1 case avec possible promotion
         if(board.isCellFree(x, y + deltaPlayer) ){
+            // avance de 2 cases
+            if(!hasMoved && board.isCellFree(x, y+ 2 * deltaPlayer)){
+                moves.add(new Move(x, y, x, y + 2 * deltaPlayer, SpecialMove.PAWN_FAST_MOVE));
+            }
             Move.addMove(x, y, x, y + deltaPlayer, moves, board, specialMove);
         }
         if (canAttack(x + 1, y + deltaPlayer)) {
