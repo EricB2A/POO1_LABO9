@@ -1,7 +1,5 @@
 package chess.engine;
 
-import chess.engine.pieces.SpecialMove;
-
 import java.util.List;
 
 public class Move {
@@ -28,13 +26,14 @@ public class Move {
 
     // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
     // mais pas sur cellule avec pièce alliée.
-    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, ChessBoard chessBoard){
-        addMove(fromX, fromY, toX, toY, moves, chessBoard, null);
+    public static void addMove(int toX, int toY, Piece originalPiece,List<Move> moves, ChessBoard chessBoard){
+        addMove(toX, toY, originalPiece, moves, chessBoard, null);
     }
-    public static void addMove(int fromX, int fromY, int toX, int toY, List<Move> moves, ChessBoard chessBoard, SpecialMove specialMove){
+
+    public static void addMove(int toX, int toY, Piece originalPiece, List<Move> moves, ChessBoard chessBoard, SpecialMove specialMove){
         if(Move.inBound(toX, toY, chessBoard.getDimension())) {
             Piece piece = chessBoard.getCellAt(toX, toY);
-            if (piece == null || piece.getOwner().getColor() != (chessBoard.getCellAt(fromX, fromY)).getOwner().getColor()) {
+            if (piece == null || piece.getColor() != originalPiece.getColor()) {
                 moves.add(new Move(toX, toY, specialMove));
             }
         }
@@ -43,11 +42,13 @@ public class Move {
     public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, ChessBoard chessBoard){
         int toX = fromX + deltaX;
         int toY = fromY + deltaY;
+        Piece originalPiece = chessBoard.getCellAt(fromX, fromY);
+
         while(inBound(toX, toY, chessBoard.getDimension())){
             Piece piece = chessBoard.getCellAt(toX, toY);
             if(piece == null){
                 moves.add(new Move(toX, toY));
-            }else if(piece.getOwner() != (chessBoard.getCellAt(fromX, fromY)).getOwner()){
+            }else if(piece.getColor() != originalPiece.getColor()){
                 // Oh wow, une pièce adverse.
                 moves.add(new Move(toX, toY));
                 break; // On ne peut aller plus loin, quittons la boucle !

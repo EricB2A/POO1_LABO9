@@ -1,6 +1,6 @@
 package chess.engine;
 
-import chess.ChessView;
+import chess.PlayerColor;
 import chess.engine.pieces.*;
 
 public class ChessBoard {
@@ -17,9 +17,6 @@ public class ChessBoard {
     }
 
     public boolean removePieceAt(int posX, int posY){
-        System.out.println("Removing piece...");
-        System.out.println(board[posX][posY] == null);
-        
         if(board[posX][posY] == null){
             return false;
         }
@@ -52,33 +49,33 @@ public class ChessBoard {
         this.lastMove = move;
     }
 
-    protected void setUpTeam(Player player){
-        // Par soucis de lisibilité.
-        Side side = player.getSide();
+    protected void setUpTeam(Player player, Side side){
+        PieceColor pieceColor = new PieceColor(player.getColor(), side);
 
         // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
         int deltaPlayer = side == Side.TOP ? 1 : -1;
+
         // Pawn
         for(int i = 0; i < N_COTE; ++i){
-            board[i][side.position + deltaPlayer] = new Pawn(player, this);
+            board[i][side.position + deltaPlayer] = new Pawn(pieceColor, this);
         }
 
         // Rook
-        board[0][side.position] = new Rook(player, this);
-        board[N_COTE - 1][side.position] = new Rook(player, this);
+        board[0][side.position] = new Rook(pieceColor, this);
+        board[N_COTE - 1][side.position] = new Rook(pieceColor, this);
 
         // Knight
-        board[1][side.position] = new Knight(player, this);
-        board[N_COTE - 2][side.position] = new Knight(player, this);
+        board[1][side.position] = new Knight(pieceColor, this);
+        board[N_COTE - 2][side.position] = new Knight(pieceColor, this);
 
         // Bishop
-        board[2][side.position] = new Bishop(player, this);
-        board[N_COTE - 3][side.position] = new Bishop(player, this);
+        board[2][side.position] = new Bishop(pieceColor, this);
+        board[N_COTE - 3][side.position] = new Bishop(pieceColor, this);
 
         // King
-        board[3][side.position] = new King(player, this);
+        board[3][side.position] = new King(pieceColor, this);
 
         // Queen
-        board[4][side.position] = new Queen(player, this);
+        board[4][side.position] = new Queen(pieceColor, this);
     }
 }

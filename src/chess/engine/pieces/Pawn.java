@@ -1,6 +1,7 @@
 package chess.engine.pieces;
 
 import chess.PieceType;
+import chess.PlayerColor;
 import chess.engine.*;
 
 import java.util.ArrayList;
@@ -10,10 +11,10 @@ import java.util.List;
  * */
 public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
-    private int deltaPlayer = getOwner().getSide() == Side.TOP ? 1 : -1;
+    private int deltaPlayer = getSide() == Side.TOP ? 1 : -1;
 
-    public Pawn(Player owner, ChessBoard chessBoard) {
-        super(PieceType.PAWN, owner, chessBoard);
+    public Pawn(PieceColor color, ChessBoard chessBoard) {
+        super(PieceType.PAWN, color, chessBoard);
     }
 
     @Override
@@ -27,13 +28,13 @@ public class Pawn extends Piece implements SpecialFirstMove {
             if(!hasMoved && chessBoard.isCellEmpty(x, y+ 2 * deltaPlayer)){
                 moves.add(new Move(x, y + 2 * deltaPlayer, SpecialMove.PAWN_FAST_MOVE));
             }
-            Move.addMove(x, y, x, y + deltaPlayer, moves, chessBoard, specialMove);
+            Move.addMove(x, y + deltaPlayer, this, moves, chessBoard, specialMove);
         }
         if (canAttack(x + 1, y + deltaPlayer)) {
-            Move.addMove(x, y, x + 1, y + deltaPlayer, moves, chessBoard, specialMove);
+            Move.addMove(x + 1, y + deltaPlayer, this, moves, chessBoard, specialMove);
         }
         if (canAttack(x - 1, y + deltaPlayer)) {
-            Move.addMove(x, y, x - 1, y + deltaPlayer, moves, chessBoard, specialMove);
+            Move.addMove(x - 1, y + deltaPlayer, this, moves, chessBoard, specialMove);
         }
 
         // prise en passant: on regarde si le dernier mouvement correspond à un déplacement de 2 (d'un pion évidemment)
@@ -47,11 +48,11 @@ public class Pawn extends Piece implements SpecialFirstMove {
                 // sur la case où on va + en passant
                 // diagonale droite
                 if (lastMove.getToX() == x + 1 && chessBoard.isCellEmpty(x + 1, y + deltaPlayer)) {
-                    Move.addMove(x, y, x + 1, y + deltaPlayer, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
+                    Move.addMove(x + 1, y + deltaPlayer, this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
                 }
                 // diagonale gauche (else if car impossible que le dernier mouvement soit et gauche et à droite)
                 else if (lastMove.getToX() == x - 1 && chessBoard.isCellEmpty(x - 1, y + deltaPlayer)) {
-                    Move.addMove(x, y, x - 1, y + deltaPlayer, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
+                    Move.addMove(x - 1, y + deltaPlayer, this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
                 }
 
             }
@@ -75,6 +76,6 @@ public class Pawn extends Piece implements SpecialFirstMove {
 
     private boolean canAttack(int toX, int toY) {
         ChessBoard chessBoard = this.getChessBoard();
-        return Move.inBound(toX, toY, chessBoard.getDimension()) && !chessBoard.isCellEmpty(toX, toY) && chessBoard.getCellAt(toX, toY).getOwner() != getOwner();
+        return Move.inBound(toX, toY, chessBoard.getDimension()) && !chessBoard.isCellEmpty(toX, toY) && chessBoard.getCellAt(toX, toY).getColor() != getColor();
     }
 }

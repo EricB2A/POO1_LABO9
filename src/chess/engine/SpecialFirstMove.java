@@ -1,4 +1,4 @@
-package chess.engine.pieces;
+package chess.engine;
 
 public interface SpecialFirstMove {
     boolean hasAlreadyMoved();

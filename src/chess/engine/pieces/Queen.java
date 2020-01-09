@@ -2,14 +2,15 @@ package chess.engine.pieces;
 
 import chess.ChessView;
 import chess.PieceType;
+import chess.PlayerColor;
 import chess.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece implements ChessView.UserChoice {
-    public Queen(Player owner, ChessBoard chessBoard) {
-        super(PieceType.QUEEN, owner, chessBoard);
+    public Queen(PieceColor color, ChessBoard chessBoard) {
+        super(PieceType.QUEEN, color, chessBoard);
     }
 
     public List<Move> getMoves(int x, int y) {

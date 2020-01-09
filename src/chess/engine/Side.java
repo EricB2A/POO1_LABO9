@@ -1,4 +1,4 @@
-package chess.engine.pieces;
+package chess.engine;
 
 public enum Side {
     TOP(0), // Première rangée. On commence l'indexation à 0 car nous ne sommes pas de animaux.

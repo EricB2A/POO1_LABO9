@@ -1,4 +1,4 @@
-package chess.engine.pieces;
+package chess.engine;
 
 public enum SpecialMove {
     PAWN_FAST_MOVE,

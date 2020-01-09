@@ -2,6 +2,7 @@ package chess.engine.pieces;
 
 import chess.ChessView;
 import chess.PieceType;
+import chess.PlayerColor;
 import chess.engine.*;
 
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ import java.util.List;
 public class Rook extends Piece implements ChessView.UserChoice, SpecialFirstMove {
     private boolean hasMoved = false;
 
-    public Rook(Player owner, ChessBoard chessBoard) {
-        super(PieceType.ROOK, owner, chessBoard);
+    public Rook(PieceColor color, ChessBoard chessBoard) {
+        super(PieceType.ROOK, color, chessBoard);
     }
     
     @Override

@@ -2,14 +2,15 @@ package chess.engine.pieces;
 
 import chess.ChessView;
 import chess.PieceType;
+import chess.PlayerColor;
 import chess.engine.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece implements ChessView.UserChoice {
-    public Bishop(Player owner, ChessBoard chessBoard) {
-        super(PieceType.BISHOP, owner, chessBoard);
+    public Bishop(PieceColor color, ChessBoard chessBoard) {
+        super(PieceType.BISHOP, color, chessBoard);
     }
 
     @Override
