@@ -7,6 +7,7 @@ import chess.assets.ConsoleAssets;
 import chess.views.BaseView;
 import chess.views.DrawableResource;
 
+import java.awt.*;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -100,6 +101,15 @@ public class ConsoleView extends BaseView<String> {
       while (userChoice < 0);
     }
     return result;
+  }
+
+  @Override
+  public void setCurrentPlayerColor(Color color) {
+    if(color == Color.WHITE){
+      System.out.println("c'est aux blancs");
+    }else{
+      System.out.println("C'est aux noirs");
+    }
   }
 
   private void initialize() {

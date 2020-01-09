@@ -8,6 +8,7 @@ import chess.views.BaseView;
 import chess.views.DrawableResource;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -42,6 +43,7 @@ public class GUIView extends BaseView<ImageIcon> {
   private final JLabel headerLabel = new JLabel("Welcome to the HEIG-VD Chess game!");
   private static final String COLS = "ABCDEFGH";
   private final JLabel messageLabel = new JLabel("");
+  private final JLabel turnColorPane = new JLabel();
 
   private ChessSquare lastPressed = null;
 
@@ -137,8 +139,14 @@ public class GUIView extends BaseView<ImageIcon> {
     return result;
   }
 
+  @Override
+  public void setCurrentPlayerColor(Color color) {
+    this.turnColorPane.setBackground(color);
+  }
+
 
   private void clearView() {
+    this.turnColorPane.setBackground(Color.WHITE);
     messageLabel.setText("");
     for (int i = 0; i < chessBoardSquares.length; ++i) {
       for (int j = 0; j < chessBoardSquares[i].length; ++j) {
@@ -187,6 +195,22 @@ public class GUIView extends BaseView<ImageIcon> {
     tools.addSeparator();
     tools.add(messageLabel);
     messageLabel.setForeground(Color.RED);
+
+    tools.addSeparator();
+    tools.add(new JLabel("Couleur du joueur courant: "));
+
+    turnColorPane.setMinimumSize(new Dimension(30,30));
+    turnColorPane.setPreferredSize(new Dimension(30,30));
+    turnColorPane.setMaximumSize(new Dimension(30,30));
+    turnColorPane.setMinimumSize(new Dimension(30,30));
+
+    turnColorPane.setOpaque(true);
+    turnColorPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+    turnColorPane.setBackground(Color.WHITE);
+
+
+    tools.add(turnColorPane);
+
 
     JPanel chessBoard;
     chessBoard = new JPanel(new GridLayout(0, 9)) {

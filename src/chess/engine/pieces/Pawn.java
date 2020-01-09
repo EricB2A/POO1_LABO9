@@ -7,8 +7,7 @@ import chess.engine.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*TODO: factoriser la promotion(3x copier/coller)
- * */
+
 public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
     private int deltaPlayer = getSide() == Side.TOP ? 1 : -1;
@@ -54,7 +53,6 @@ public class Pawn extends Piece implements SpecialFirstMove {
                 else if (lastMove.getToX() == x - 1 && chessBoard.isCellEmpty(x - 1, y + deltaPlayer)) {
                     Move.addMove(x - 1, y + deltaPlayer, this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
                 }
-
             }
         }
         return moves;

@@ -5,6 +5,8 @@ import chess.ChessView;
 import chess.PlayerColor;
 import chess.engine.pieces.*;
 
+import java.awt.*;
+
 public class ChessGame implements ChessController {
 
     private ChessView view;
@@ -83,6 +85,8 @@ public class ChessGame implements ChessController {
     }
 
     private void endTurn(){
+        Color color = turn == player1 ? Color.BLACK : Color.WHITE;
+        view.setCurrentPlayerColor(color);
         turn = turn == player1 ? player2 : player1;
     }
 

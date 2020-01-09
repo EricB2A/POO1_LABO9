@@ -1,5 +1,7 @@
 package chess;
 
+import java.awt.*;
+
 /**
  * Méthodes fournies par les vues.
  */
@@ -49,5 +51,7 @@ public interface ChessView {
    * @return l'option choisie par l'utilisateur parmis les choix proposés.
    */
   <T extends UserChoice> T askUser (String title, String question, T ... possibilities);
+
+  void setCurrentPlayerColor(Color color);
 
 }
