@@ -4,6 +4,7 @@ import chess.PieceType;
 import chess.PlayerColor;
 import chess.engine.*;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,32 +16,33 @@ public class King extends Piece implements SpecialFirstMove {
     }
 
     @Override
-    public List<Move> getMoves(int x, int y) {
+    public List<Move> getMoves(Point pos) {
         List<Move> moves = new ArrayList<>();
         ChessBoard chessBoard = this.getChessBoard();
+        int x = pos.x, y = pos.y;
 
-        Move.addMove(x + 1, y + 1, this, moves, chessBoard);
-        Move.addMove( x + 1, y, this, moves, chessBoard);
-        Move.addMove( x + 1, y - 1, this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 1, y + 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 1, y), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 1, y - 1), this, moves, chessBoard);
 
-        Move.addMove(x - 1, y + 1, this, moves, chessBoard);
-        Move.addMove(x - 1, y, this, moves, chessBoard);
-        Move.addMove(x - 1, y - 1, this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 1, y + 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 1, y), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 1, y - 1), this, moves, chessBoard);
 
-        Move.addMove(x , y + 1, this, moves, chessBoard);
-        Move.addMove(x , y - 1, this, moves, chessBoard);
+        Move.addMove(pos, new Point(x , y + 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x , y - 1), this, moves, chessBoard);
 
         // Gestion du castle.
         if (!hasMoved) {
-            Rook rightRook = (Rook) chessBoard.getCellAt(x + 4, y);
-            Rook leftRook = (Rook) chessBoard.getCellAt(x - 3, y);
+            Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x + 4, y));
+            Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x - 3, y));
 
-            if (rightRook != null && rightRook.hasAlreadyMoved() && chessBoard.isCellEmpty(x + 1, y) && chessBoard.isCellEmpty(x + 2, y)
-                    && chessBoard.isCellEmpty(x + 3, y)) {
-                moves.add(new Move(x + 2, y, SpecialMove.KING_LONG_CASTLED));
+            if (rightRook != null && rightRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x + 1, y)) && chessBoard.isCellEmpty(new Point(x + 2, y))
+                    && chessBoard.isCellEmpty(new Point(x + 3, y))) {
+                moves.add(new Move(pos, new Point(x + 2, y), SpecialMove.KING_LONG_CASTLED));
             }
-            if (leftRook != null && leftRook.hasAlreadyMoved() && chessBoard.isCellEmpty(x - 1, y) && chessBoard.isCellEmpty(x - 2, y)) {
-                moves.add(new Move(x - 2, y, SpecialMove.KING_SHORT_CASTLED));
+            if (leftRook != null && leftRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))) {
+                moves.add(new Move(pos, new Point(x - 2, y), SpecialMove.KING_SHORT_CASTLED));
             }
         }
 

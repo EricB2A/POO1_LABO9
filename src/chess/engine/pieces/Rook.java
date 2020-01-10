@@ -5,6 +5,7 @@ import chess.PieceType;
 import chess.PlayerColor;
 import chess.engine.*;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +17,18 @@ public class Rook extends Piece implements ChessView.UserChoice, SpecialFirstMov
     }
     
     @Override
-    public List<Move> getMoves(int x, int y) {
+    public List<Move> getMoves(Point pos) {
         List<Move> moves = new ArrayList<>();
         ChessBoard chessBoard = this.getChessBoard();
 
         // Ligne bas.
-        Move.addMoves(x, y, 0, 1, moves, chessBoard);
+        Move.addMoves(pos, new Point(0, 1), moves, chessBoard);
         // Ligne haut.
-        Move.addMoves(x, y, 0, -1, moves, chessBoard);
+        Move.addMoves(pos, new Point(0, -1), moves, chessBoard);
         // Ligne droite.
-        Move.addMoves(x, y, 1, 0, moves, chessBoard);
+        Move.addMoves(pos, new Point(1, 0), moves, chessBoard);
         // Ligne gauche.
-        Move.addMoves(x, y, -1, 0, moves, chessBoard);
+        Move.addMoves(pos, new Point(-1, 0), moves, chessBoard);
         
         return moves;
     }

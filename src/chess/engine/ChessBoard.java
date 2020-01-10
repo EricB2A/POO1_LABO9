@@ -3,6 +3,8 @@ package chess.engine;
 import chess.PlayerColor;
 import chess.engine.pieces.*;
 
+import java.awt.Point;
+
 public class ChessBoard {
     private int N_COTE;
     private Piece board[][];
@@ -16,29 +18,29 @@ public class ChessBoard {
         this.board = new Piece[nCote][nCote];
     }
 
-    public boolean removePieceAt(int posX, int posY){
-        if(board[posX][posY] == null){
+    public boolean removePieceAt(Point pos){
+        if(board[pos.x][pos.y] == null){
             return false;
         }
-        board[posX][posY] = null;
+        board[pos.y][pos.y] = null;
         return true;
     }
 
-    public void placePieceAt(Piece piece, int posX, int posY){
+    public void placePieceAt(Piece piece, Point pos){
         System.out.println("Moving piece...");
-        board[posX][posY] = piece;
+        board[pos.x][pos.y] = piece;
     }
 
-    public boolean isCellEmpty(int posX, int posY){
-        return board[posX][posY] == null;
+    public boolean isCellEmpty(Point pos){
+        return board[pos.x][pos.y] == null;
     }
 
     public int getDimension(){
         return N_COTE;
     }
 
-    public Piece getCellAt(int posX, int posY){
-        return board[posX][posY];
+    public Piece getCellAt(Point pos){
+        return board[pos.x][pos.y];
     }
 
     public Move getLastMove(){

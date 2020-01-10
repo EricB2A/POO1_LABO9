@@ -4,6 +4,7 @@ import chess.PieceType;
 import chess.PlayerColor;
 import chess.engine.*;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,23 +18,25 @@ public class Pawn extends Piece implements SpecialFirstMove {
     }
 
     @Override
-    public List<Move> getMoves(int x, int y) {
+    public List<Move> getMoves(Point pos) {
         List<Move> moves = new ArrayList<Move>();
         ChessBoard chessBoard = this.getChessBoard();
-        SpecialMove specialMove = canBePromoted(y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
+        SpecialMove specialMove = canBePromoted(pos.y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
+        int x = pos.x, y = pos.y;
+
         // avance 1 case avec possible promotion
-        if(chessBoard.isCellEmpty(x, y + deltaPlayer) ){
+        if(chessBoard.isCellEmpty(new Point(x, y + deltaPlayer)) ){
             // avance de 2 cases
-            if(!hasMoved && chessBoard.isCellEmpty(x, y+ 2 * deltaPlayer)){
-                moves.add(new Move(x, y + 2 * deltaPlayer, SpecialMove.PAWN_FAST_MOVE));
+            if(!hasMoved && chessBoard.isCellEmpty(new Point(x, y+ 2 * deltaPlayer))){
+                moves.add(new Move(pos, new Point(x, y + 2 * deltaPlayer), SpecialMove.PAWN_FAST_MOVE));
             }
-            Move.addMove(x, y + deltaPlayer, this, moves, chessBoard, specialMove);
+            Move.addMove(pos, new Point(x, y + deltaPlayer), this, moves, chessBoard, specialMove);
         }
-        if (canAttack(x + 1, y + deltaPlayer)) {
-            Move.addMove(x + 1, y + deltaPlayer, this, moves, chessBoard, specialMove);
+        if (canAttack(new Point(x + 1, y + deltaPlayer))) {
+            Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, chessBoard, specialMove);
         }
-        if (canAttack(x - 1, y + deltaPlayer)) {
-            Move.addMove(x - 1, y + deltaPlayer, this, moves, chessBoard, specialMove);
+        if (canAttack(new Point(x - 1, y + deltaPlayer))) {
+            Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, chessBoard, specialMove);
         }
 
         // prise en passant: on regarde si le dernier mouvement correspond à un déplacement de 2 (d'un pion évidemment)
@@ -41,17 +44,17 @@ public class Pawn extends Piece implements SpecialFirstMove {
         // le cas on ajoute la diago correspondante
         Move lastMove = chessBoard.getLastMove();
         if (lastMove != null && lastMove.getSpecialMove() == SpecialMove.PAWN_FAST_MOVE) {
-            if (lastMove.getToY() == y) {
+            if (lastMove.getTo().y == y) {
 
                 //on vérifie que la case destination est libre car sinon on pourrait manger 2 pièces d'un coup celle
                 // sur la case où on va + en passant
                 // diagonale droite
-                if (lastMove.getToX() == x + 1 && chessBoard.isCellEmpty(x + 1, y + deltaPlayer)) {
-                    Move.addMove(x + 1, y + deltaPlayer, this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
+                if (lastMove.getTo().x == x + 1 && chessBoard.isCellEmpty(new Point(x + 1, y + deltaPlayer))) {
+                    Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
                 }
                 // diagonale gauche (else if car impossible que le dernier mouvement soit et gauche et à droite)
-                else if (lastMove.getToX() == x - 1 && chessBoard.isCellEmpty(x - 1, y + deltaPlayer)) {
-                    Move.addMove(x - 1, y + deltaPlayer, this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
+                else if (lastMove.getTo().x == x - 1 && chessBoard.isCellEmpty(new Point(x - 1, y + deltaPlayer))) {
+                    Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
                 }
             }
         }
@@ -72,8 +75,8 @@ public class Pawn extends Piece implements SpecialFirstMove {
         return y == 0 || y == chessBoard.getDimension() - 1;
     }
 
-    private boolean canAttack(int toX, int toY) {
+    private boolean canAttack(Point to) {
         ChessBoard chessBoard = this.getChessBoard();
-        return Move.inBound(toX, toY, chessBoard.getDimension()) && !chessBoard.isCellEmpty(toX, toY) && chessBoard.getCellAt(toX, toY).getColor() != getColor();
+        return Move.inBound(to, chessBoard.getDimension()) && !chessBoard.isCellEmpty(to) && chessBoard.getCellAt(to).getColor() != getColor();
     }
 }

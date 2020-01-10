@@ -3,6 +3,7 @@ package chess.engine;
 import chess.PieceType;
 import chess.PlayerColor;
 
+import java.awt.Point;
 import java.util.List;
 
 public abstract class Piece  {
@@ -25,7 +26,7 @@ public abstract class Piece  {
         this.chessBoard = chessBoard;
     }
 
-    public abstract List<Move> getMoves(int x, int y);
+    public abstract List<Move> getMoves(Point pos);
 
     public ChessBoard getChessBoard() {
         return chessBoard;

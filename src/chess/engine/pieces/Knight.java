@@ -5,6 +5,7 @@ import chess.PieceType;
 import chess.PlayerColor;
 import chess.engine.*;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +15,20 @@ public class Knight extends Piece implements ChessView.UserChoice {
     }
 
     @Override
-    public List<Move> getMoves(int x, int y) {
+    public List<Move> getMoves(Point pos) {
         List<Move> moves = new ArrayList<>();
         ChessBoard chessBoard = this.getChessBoard();
+        int x = pos.x, y = pos.y;
 
-        Move.addMove(x + 1, y + 2, this, moves, chessBoard);
-        Move.addMove(x - 1, y + 2, this, moves, chessBoard);
-        Move.addMove(x + 1, y - 2, this, moves, chessBoard);
-        Move.addMove(x - 1, y - 2, this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 1, y + 2), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 1, y + 2), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 1, y - 2), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 1, y - 2), this, moves, chessBoard);
 
-        Move.addMove(x + 2, y + 1, this, moves, chessBoard);
-        Move.addMove(x - 2, y + 1, this, moves, chessBoard);
-        Move.addMove(x + 2, y - 1, this, moves, chessBoard);
-        Move.addMove(x - 2, y - 1, this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 2, y + 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 2, y + 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 2, y - 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 2, y - 1), this, moves, chessBoard);
 
         return moves;
     }

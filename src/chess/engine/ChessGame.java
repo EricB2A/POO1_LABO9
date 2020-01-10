@@ -27,23 +27,25 @@ public class ChessGame implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        if(chessBoard.isCellEmpty(fromX, fromY)){
+        Point from = new Point(fromX, fromY);
+        Point to = new Point(toX ,toY);
+        if(chessBoard.isCellEmpty(from)){
             return false;
         }
-        Piece toMove = chessBoard.getCellAt(fromX, fromY);
+        Piece toMove = chessBoard.getCellAt(from);
 
         if(isItsTurn(toMove)){
-            for (Move move : toMove.getMoves(fromX, fromY)){
-                if(move.equals(toX, toY)){
-                    removePieceAt(fromX, fromY);
-                    placePieceAt(toMove, toX, toY);
+            for (Move move : toMove.getMoves(from)){
+                if(move.equals(to)){
+                    removePieceAt(from);
+                    placePieceAt(toMove, to);
 
                     if(move.getSpecialMove() != null) {
                         switch (move.getSpecialMove()) {
                             case PAWN_EN_PASSANT:
                                 // todo redondant voir plus bas => faire fonction ? library class Utils ?
                                 int deltaPlayer = toMove.getSide() == Side.TOP ? 1 : -1;
-                                removePieceAt(toX, toY - deltaPlayer);
+                                removePieceAt(new Point(toX, toY - deltaPlayer));
                                 break;
 
                             case PAWN_PROMOTION:
@@ -51,21 +53,21 @@ public class ChessGame implements ChessController {
                                 ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
                                         new Queen(pc, chessBoard), new Bishop(pc, chessBoard), new Rook(pc, chessBoard), new Knight(pc, chessBoard));
                                 if (promoPiece != null) {
-                                    removePieceAt(toX, toY);
-                                    placePieceAt((Piece) promoPiece, toX, toY);
+                                    removePieceAt(to);
+                                    placePieceAt((Piece) promoPiece, to);
                                 }
                                 break;
                             // TODO voir si factorisable
                             case KING_LONG_CASTLED:
-                                Rook rRook = (Rook) chessBoard.getCellAt(toX + 2, toY);
-                                removePieceAt(toX + 2, toY);
-                                placePieceAt(rRook, toX - 1, toY);
+                                Rook rRook = (Rook) chessBoard.getCellAt(new Point(toX + 2, toY));
+                                removePieceAt(new Point(toX + 2, toY));
+                                placePieceAt(rRook, new Point(toX - 1, toY));
                                 break;
 
                             case KING_SHORT_CASTLED:
-                                Rook lRook = (Rook) chessBoard.getCellAt(toX - 1, toY);
-                                removePieceAt(toX - 1, toY);
-                                placePieceAt(lRook, toX + 1, toY);
+                                Rook lRook = (Rook) chessBoard.getCellAt(new Point(toX - 1, toY));
+                                removePieceAt(new Point(toX - 1, toY));
+                                placePieceAt(lRook, new Point(toX + 1, toY));
                                 break;
 
                         }
@@ -90,21 +92,21 @@ public class ChessGame implements ChessController {
         turn = turn == player1 ? player2 : player1;
     }
 
-    private void removePieceAt(int posX, int posY){
-        if(!chessBoard.removePieceAt(posX, posY)){
+    private void removePieceAt(Point pos){
+        if(!chessBoard.removePieceAt(pos)){
             throw new RuntimeException("Piece is introuvable");
         }
-        view.removePiece(posX, posY);
+        view.removePiece(pos.x, pos.y);
     }
 
-    private void placePieceAt(Piece piece, int posX, int posY){
-        chessBoard.placePieceAt(piece, posX, posY);
+    private void placePieceAt(Piece piece, Point pos){
+        chessBoard.placePieceAt(piece, pos);
         // On marque la pièce comme bougée si nécessaire
         if (SpecialFirstMove.class.isAssignableFrom(piece.getClass())) {
             SpecialFirstMove spePiece = (SpecialFirstMove) piece;
             spePiece.hasMoved();
         }
-        view.putPiece(piece.getType(), piece.getColor(), posX, posY);
+        view.putPiece(piece.getType(), piece.getColor(), pos.x, pos.y);
     }
 
     @Override
@@ -118,11 +120,12 @@ public class ChessGame implements ChessController {
         chessBoard.setUpTeam(player1, Side.TOP);
         chessBoard.setUpTeam(player2, Side.BOTTOM);
 
-        for(int i = 0; i < nCote; ++i){
-            for(int j = 0; j < nCote; ++j){
-                if(!chessBoard.isCellEmpty(i, j)){
-                    Piece piece = chessBoard.getCellAt(i, j);
-                    view.putPiece(piece.getType(), piece.getColor(), i, j);
+        for(int x = 0; x < nCote; ++x){
+            for(int y = 0; y < nCote; ++y){
+                Point pos = new Point(x, y);
+                if(!chessBoard.isCellEmpty(pos)){
+                    Piece piece = chessBoard.getCellAt(pos);
+                    view.putPiece(piece.getType(), piece.getColor(), x, y);
                 }
             }
         }

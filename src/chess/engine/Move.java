@@ -1,68 +1,72 @@
 package chess.engine;
 
+import java.awt.Point;
 import java.util.List;
 
 public class Move {
-    private int toX, toY;
+    private Point from, to;
     private SpecialMove specialMove;
 
-    public Move(int toX, int toY){
-        this.toX = toX;
-        this.toY = toY;
+    public Move(Point from, Point to){
+        this.from = from;
+        this.to = to;
     }
 
-    public Move(int toX, int toY, SpecialMove specialMove){
-        this(toX, toY);
+    public Move(Point from, Point to, SpecialMove specialMove){
+        this(from, to);
         this.specialMove = specialMove;
     }
 
-    public boolean equals(int x, int y){
-        return toX == x && toY == y;
+    public boolean equals(Point pos){
+            return to.equals(pos);
     }
 
-    public static boolean inBound(int x, int y, int dimension){
-        return (x >= 0 && x < dimension) && (y >= 0 && y < dimension);
+    public static boolean inBound(Point pos, int dimension){
+        return (pos.x >= 0 && pos.x < dimension) && (pos.y >= 0 && pos.y < dimension);
     }
 
     // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
     // mais pas sur cellule avec pièce alliée.
-    public static void addMove(int toX, int toY, Piece originalPiece,List<Move> moves, ChessBoard chessBoard){
-        addMove(toX, toY, originalPiece, moves, chessBoard, null);
+    public static void addMove(Point from, Point to, Piece originalPiece,List<Move> moves, ChessBoard chessBoard){
+        addMove(from, to, originalPiece, moves, chessBoard, null);
     }
 
-    public static void addMove(int toX, int toY, Piece originalPiece, List<Move> moves, ChessBoard chessBoard, SpecialMove specialMove){
-        if(Move.inBound(toX, toY, chessBoard.getDimension())) {
-            Piece piece = chessBoard.getCellAt(toX, toY);
+    public static void addMove(Point from, Point to, Piece originalPiece, List<Move> moves, ChessBoard chessBoard, SpecialMove specialMove){
+        if(Move.inBound(to, chessBoard.getDimension())) {
+            Piece piece = chessBoard.getCellAt(to);
             if (piece == null || piece.getColor() != originalPiece.getColor()) {
-                moves.add(new Move(toX, toY, specialMove));
+                moves.add(new Move(from, to, specialMove));
             }
         }
     }
 
-    public static void addMoves(int fromX, int fromY, int deltaX, int deltaY, List<Move> moves, ChessBoard chessBoard){
-        int toX = fromX + deltaX;
-        int toY = fromY + deltaY;
-        Piece originalPiece = chessBoard.getCellAt(fromX, fromY);
+    public static void addMoves(Point from, Point delta, List<Move> moves, ChessBoard chessBoard){
+        Point to = new Point(from.x + delta.x, from.y + delta.y);
+        Piece originalPiece = chessBoard.getCellAt(from);
 
-        while(inBound(toX, toY, chessBoard.getDimension())){
-            Piece piece = chessBoard.getCellAt(toX, toY);
+        while(inBound(to, chessBoard.getDimension())){
+            Piece piece = chessBoard.getCellAt(to);
             if(piece == null){
-                moves.add(new Move(toX, toY));
+                moves.add(new Move(from, to));
             }else if(piece.getColor() != originalPiece.getColor()){
                 // Oh wow, une pièce adverse.
-                moves.add(new Move(toX, toY));
+                moves.add(new Move(from, to));
                 break; // On ne peut aller plus loin, quittons la boucle !
             }else{
                 break;
             }
-            toX += deltaX;
-            toY += deltaY;
+            to.x += delta.x;
+            to.y += delta.y;
         }
     }
 
     public SpecialMove getSpecialMove(){
         return specialMove;
     }
-    public int getToX(){return toX;};
-    public int getToY(){return toY;};
+    public Point getFrom(){
+        return from;
+    }
+    public Point getTo(){
+        return to;
+    }
 }
