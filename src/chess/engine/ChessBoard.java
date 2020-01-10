@@ -22,8 +22,23 @@ public class ChessBoard {
         if(board[pos.x][pos.y] == null){
             return false;
         }
-        board[pos.y][pos.y] = null;
+        board[pos.x][pos.y] = null;
         return true;
+    }
+    // todo : à supprimer
+    public void display(){
+        for(int i = 0 ; i < N_COTE; ++i){
+            StringBuilder str = new StringBuilder();
+            for(int j = 0; j < N_COTE; ++j){
+                if(board[j][i] == null){
+                    str.append(" ");
+                }else{
+                    str.append("X");
+                }
+                str.append("|");
+            }
+            System.out.println(str);
+        }
     }
 
     public void placePieceAt(Piece piece, Point pos){

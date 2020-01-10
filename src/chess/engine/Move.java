@@ -8,8 +8,8 @@ public class Move {
     private SpecialMove specialMove;
 
     public Move(Point from, Point to){
-        this.from = from;
-        this.to = to;
+        this.from = new Point(from);
+        this.to = new Point(to);
     }
 
     public Move(Point from, Point to, SpecialMove specialMove){
