@@ -109,7 +109,7 @@ public class ChessBoard {
         PieceColor pieceColor = new PieceColor(player.getColor(), side);
 
         // Nous permet de décaler les pions d'une rangée vers le centre de l'échiquier.
-        int deltaPlayer = side == Side.TOP ? 1 : -1;
+        int deltaPlayer = side == Side.BOTTOM ? 1 : -1;
 
         // Pawn
         for(int i = 0; i < N_COTE; ++i){
