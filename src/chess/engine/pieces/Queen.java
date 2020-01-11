@@ -14,26 +14,26 @@ public class Queen extends Piece implements ChessView.UserChoice {
         super(PieceType.QUEEN, color, chessBoard);
     }
 
-    public List<Move> getMoves(Point pos) {
+    public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<Move>();
         ChessBoard chessBoard = this.getChessBoard();
 
         // Diagonale droite inférieure.
-        Move.addMoves(pos, new Point(1, 1), moves, chessBoard);
+        Move.addMoves(pos, new Point(1, 1), this, moves, virtual);
         // Diagonale droite supérieure.
-        Move.addMoves(pos, new Point(1, -1), moves, chessBoard);
+        Move.addMoves(pos, new Point(1, -1), this, moves, virtual);
         // Diagonale gauche inférieure.
-        Move.addMoves(pos, new Point(-1, 1), moves, chessBoard);
+        Move.addMoves(pos, new Point(-1, 1), this, moves, virtual);
         // Diagonale gauche supérieure.
-        Move.addMoves(pos, new Point(-1, -1), moves, chessBoard);
+        Move.addMoves(pos, new Point(-1, -1), this, moves, virtual);
         // Ligne bas.
-        Move.addMoves(pos, new Point(0, 1), moves, chessBoard);
+        Move.addMoves(pos, new Point(0, 1), this, moves, virtual);
         // Ligne haut.
-        Move.addMoves(pos, new Point(0, -1), moves, chessBoard);
+        Move.addMoves(pos, new Point(0, -1), this, moves, virtual);
         // Ligne droite.
-        Move.addMoves(pos, new Point(1, 0), moves, chessBoard);
+        Move.addMoves(pos, new Point(1, 0), this, moves, virtual);
         // Ligne gauche.
-        Move.addMoves(pos, new Point(-1, 0), moves, chessBoard);
+        Move.addMoves(pos, new Point(-1, 0), this, moves, virtual);
 
         return moves;
     }

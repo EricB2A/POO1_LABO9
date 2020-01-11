@@ -26,7 +26,22 @@ public abstract class Piece  {
         this.chessBoard = chessBoard;
     }
 
-    public abstract List<Move> getMoves(Point pos);
+    public abstract List<Move> getMoves(Point pos, boolean virtual);
+
+    public boolean willBeCheck(Move move){
+
+        // Ok, essayons d'applique le move
+        chessBoard.placePieceAt(this, move.getTo());
+
+        // Est-ce que mon roi va prendre cher ?
+        boolean isKingCheck = chessBoard.isCheck(color.getColor());
+
+        // Rollback
+        chessBoard.placePieceAt(this, move.getFrom());
+        System.out.println("IS BE CHECK : " + isKingCheck);
+
+        return isKingCheck;
+    }
 
     public ChessBoard getChessBoard() {
         return chessBoard;

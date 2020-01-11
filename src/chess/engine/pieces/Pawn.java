@@ -18,7 +18,7 @@ public class Pawn extends Piece implements SpecialFirstMove {
     }
 
     @Override
-    public List<Move> getMoves(Point pos) {
+    public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<Move>();
         ChessBoard chessBoard = this.getChessBoard();
         SpecialMove specialMove = canBePromoted(pos.y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
@@ -30,13 +30,13 @@ public class Pawn extends Piece implements SpecialFirstMove {
             if(!hasMoved && chessBoard.isCellEmpty(new Point(x, y+ 2 * deltaPlayer))){
                 moves.add(new Move(pos, new Point(x, y + 2 * deltaPlayer), SpecialMove.PAWN_FAST_MOVE));
             }
-            Move.addMove(pos, new Point(x, y + deltaPlayer), this, moves, chessBoard, specialMove);
+            Move.addMove(pos, new Point(x, y + deltaPlayer), this, moves, specialMove, virtual);
         }
         if (canAttack(new Point(x + 1, y + deltaPlayer))) {
-            Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, chessBoard, specialMove);
+            Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, specialMove, virtual);
         }
         if (canAttack(new Point(x - 1, y + deltaPlayer))) {
-            Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, chessBoard, specialMove);
+            Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, specialMove, virtual);
         }
 
         // prise en passant: on regarde si le dernier mouvement correspond à un déplacement de 2 (d'un pion évidemment)
@@ -50,11 +50,11 @@ public class Pawn extends Piece implements SpecialFirstMove {
                 // sur la case où on va + en passant
                 // diagonale droite
                 if (lastMove.getTo().x == x + 1 && chessBoard.isCellEmpty(new Point(x + 1, y + deltaPlayer))) {
-                    Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
+                    Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, SpecialMove.PAWN_EN_PASSANT, virtual);
                 }
                 // diagonale gauche (else if car impossible que le dernier mouvement soit et gauche et à droite)
                 else if (lastMove.getTo().x == x - 1 && chessBoard.isCellEmpty(new Point(x - 1, y + deltaPlayer))) {
-                    Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, chessBoard, SpecialMove.PAWN_EN_PASSANT);
+                    Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, SpecialMove.PAWN_EN_PASSANT, virtual);
                 }
             }
         }

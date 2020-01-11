@@ -27,11 +27,12 @@ public class Move {
 
     // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
     // mais pas sur cellule avec pièce alliée.
-    public static void addMove(Point from, Point to, Piece originalPiece,List<Move> moves, ChessBoard chessBoard){
-        addMove(from, to, originalPiece, moves, chessBoard, null);
+    public static void addMove(Point from, Point to, Piece originalPiece,List<Move> moves, boolean virtual){
+        addMove(from, to, originalPiece, moves, null, virtual);
     }
 
-    public static void addMove(Point from, Point to, Piece originalPiece, List<Move> moves, ChessBoard chessBoard, SpecialMove specialMove){
+    public static void addMove(Point from, Point to, Piece originalPiece, List<Move> moves, SpecialMove specialMove, boolean virtual){
+        ChessBoard chessBoard = originalPiece.getChessBoard();
         if(Move.inBound(to, chessBoard.getDimension())) {
             Piece piece = chessBoard.getCellAt(to);
             if (piece == null || piece.getColor() != originalPiece.getColor()) {
@@ -40,9 +41,9 @@ public class Move {
         }
     }
 
-    public static void addMoves(Point from, Point delta, List<Move> moves, ChessBoard chessBoard){
+    public static void addMoves(Point from, Point delta, Piece originalPiece, List<Move> moves, boolean virtual){
+        ChessBoard chessBoard = originalPiece.getChessBoard();
         Point to = new Point(from.x + delta.x, from.y + delta.y);
-        Piece originalPiece = chessBoard.getCellAt(from);
 
         while(inBound(to, chessBoard.getDimension())){
             Piece piece = chessBoard.getCellAt(to);

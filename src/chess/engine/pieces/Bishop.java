@@ -15,18 +15,18 @@ public class Bishop extends Piece implements ChessView.UserChoice {
     }
 
     @Override
-    public List<Move> getMoves(Point pos) {
+    public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<Move>();
         ChessBoard chessBoard = getChessBoard();
 
         // Diagonale droite inférieure.
-        Move.addMoves(pos, new Point(1,1), moves, chessBoard);
+        Move.addMoves(pos, new Point(1,1), this, moves, virtual);
         // Diagonale droite supérieure.
-        Move.addMoves(pos, new Point(1, -1), moves, chessBoard);
+        Move.addMoves(pos, new Point(1, -1), this, moves, virtual);
         // Diagonale gauche inférieure.
-        Move.addMoves(pos, new Point(-1, 1), moves, chessBoard);
+        Move.addMoves(pos, new Point(-1, 1), this, moves, virtual);
         // Diagonale gauche supérieure.
-        Move.addMoves(pos, new Point(-1, -1), moves, chessBoard);
+        Move.addMoves(pos, new Point(-1, -1), this, moves, virtual);
 
         return moves;
     }

@@ -9,6 +9,8 @@ public class ChessBoard {
     private int N_COTE;
     private Piece board[][];
     private Move lastMove;
+    Point whiteKing;
+    Point blackKing;
 
     public ChessBoard(int nCote){
         if(nCote < 0 ){
@@ -16,6 +18,35 @@ public class ChessBoard {
         }
         this.N_COTE = nCote;
         this.board = new Piece[nCote][nCote];
+    }
+
+    public boolean isCheck(PlayerColor playerColor){
+        //TODO: peut-être factorisé, mais en perdant en lisibilité.
+
+        if(playerColor == PlayerColor.WHITE){
+            System.out.println("WHITE KING IS AT " + whiteKing);
+            return isUnderAttack(whiteKing, PlayerColor.BLACK);
+        }else{
+            System.out.println("NIGGA KING IS AT " + blackKing);
+            return isUnderAttack(blackKing, PlayerColor.WHITE);
+        }
+    }
+
+    private boolean isUnderAttack(Point piece, PlayerColor opponentColor){
+        for(int x = 0; x < N_COTE; ++x){
+            for(int y = 0; y < N_COTE; ++y){
+                Piece possibleOpponent = board[x][y];
+                // Est-ce qu'il s'agit d'un adversaire (pouvant donc attaque pièce) ?
+                if(possibleOpponent != null && possibleOpponent.getColor() == opponentColor){
+                    for(Move move : possibleOpponent.getMoves(new Point(x, y), true)){
+                        if(move.equals(piece)){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public boolean removePieceAt(Point pos){
@@ -44,6 +75,14 @@ public class ChessBoard {
     public void placePieceAt(Piece piece, Point pos){
         System.out.println("Moving piece...");
         board[pos.x][pos.y] = piece;
+        // Gardons en référence la position du roi.
+        if(piece.getClass() == King.class){
+            if(piece.getColor() == PlayerColor.WHITE){
+                whiteKing = pos;
+            }else{
+                blackKing = pos;
+            }
+        }
     }
 
     public boolean isCellEmpty(Point pos){
@@ -91,6 +130,11 @@ public class ChessBoard {
 
         // King
         board[3][side.position] = new King(pieceColor, this);
+        if(player.getColor() == PlayerColor.WHITE){
+            whiteKing = new Point(3, side.position);;
+        }else{
+            blackKing = new Point(3, side.position);;
+        }
 
         // Queen
         board[4][side.position] = new Queen(pieceColor, this);

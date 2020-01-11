@@ -16,21 +16,21 @@ public class King extends Piece implements SpecialFirstMove {
     }
 
     @Override
-    public List<Move> getMoves(Point pos) {
+    public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<>();
         ChessBoard chessBoard = this.getChessBoard();
         int x = pos.x, y = pos.y;
 
-        Move.addMove(pos, new Point(x + 1, y + 1), this, moves, chessBoard);
-        Move.addMove(pos, new Point(x + 1, y), this, moves, chessBoard);
-        Move.addMove(pos, new Point(x + 1, y - 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x + 1, y + 1), this, moves, virtual);
+        Move.addMove(pos, new Point(x + 1, y), this, moves, virtual);
+        Move.addMove(pos, new Point(x + 1, y - 1), this, moves, virtual);
 
-        Move.addMove(pos, new Point(x - 1, y + 1), this, moves, chessBoard);
-        Move.addMove(pos, new Point(x - 1, y), this, moves, chessBoard);
-        Move.addMove(pos, new Point(x - 1, y - 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x - 1, y + 1), this, moves, virtual);
+        Move.addMove(pos, new Point(x - 1, y), this, moves, virtual);
+        Move.addMove(pos, new Point(x - 1, y - 1), this, moves, virtual);
 
-        Move.addMove(pos, new Point(x , y + 1), this, moves, chessBoard);
-        Move.addMove(pos, new Point(x , y - 1), this, moves, chessBoard);
+        Move.addMove(pos, new Point(x , y + 1), this, moves, virtual);
+        Move.addMove(pos, new Point(x , y - 1), this, moves, virtual);
 
         // Gestion du castle.
         if (!hasMoved) {

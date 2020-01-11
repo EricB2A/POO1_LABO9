@@ -35,7 +35,7 @@ public class ChessGame implements ChessController {
         Piece toMove = chessBoard.getCellAt(from);
 
         if(isItsTurn(toMove)){
-            for (Move move : toMove.getMoves(from)){
+            for (Move move : toMove.getMoves(from, false)){
                 if(move.equals(to)){
                     removePieceAt(from);
                     placePieceAt(toMove, to);
