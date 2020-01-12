@@ -30,7 +30,7 @@ public class ChessBoard {
         }
     }
 
-    private boolean isUnderAttack(Point piece, PlayerColor opponentColor){
+    public boolean isUnderAttack(Point piece, PlayerColor opponentColor){
         for(int y = 0; y < N_COTE; ++y){
             for(int x = 0; x < N_COTE; ++x){
                 Piece possibleOpponent = board[y][x];

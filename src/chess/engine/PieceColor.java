@@ -25,5 +25,8 @@ public class PieceColor {
     public Side getSide() {
         return side;
     }
+    public static PlayerColor getOpponentColor(PlayerColor playerColor){
+        return playerColor == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.BLACK;
+    }
 
 }
