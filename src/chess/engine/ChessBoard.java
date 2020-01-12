@@ -14,6 +14,7 @@ public class ChessBoard {
     ChessGame chessGame;
     Point whiteKing;
     Point blackKing;
+    private String checkTextMessage = "Echec.";
 
     public ChessBoard(int nCote, ChessGame chessGame){
         if(nCote < 0 ){
@@ -101,6 +102,11 @@ public class ChessBoard {
             }else{
                 blackKing = new Point(pos);
             }
+        }
+        if(isCheck(piece.getColor() == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE)){
+            chessGame.displayMessage(checkTextMessage);
+        }else{
+            chessGame.displayMessage("");
         }
     }
 
