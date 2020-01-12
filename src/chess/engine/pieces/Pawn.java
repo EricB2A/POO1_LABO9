@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
-    private int deltaPlayer = getSide() == Side.BOTTOM ? 1 : -1;
+    private int deltaPlayer = getSide() == Side.TOP ? 1 : -1;
 
     public Pawn(PieceColor color, ChessBoard chessBoard) {
         super(PieceType.PAWN, color, chessBoard);
