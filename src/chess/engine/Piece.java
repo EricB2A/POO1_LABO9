@@ -29,17 +29,31 @@ public abstract class Piece  {
     public abstract List<Move> getMoves(Point pos, boolean virtual);
 
     public boolean willBeCheck(Move move){
-
-        // Ok, essayons d'applique le move
+        // Ok, essayons d'appliquer le move.
+        Piece previousPiece = chessBoard.getCellAt(move.getTo());
+        chessBoard.removePieceAt(move.getFrom());
         chessBoard.placePieceAt(this, move.getTo());
 
         // Est-ce que mon roi va prendre cher ?
+
         boolean isKingCheck = chessBoard.isCheck(color.getColor());
+        System.out.println("MON ROI PREND CHER ? " + isKingCheck);
+        System.out.println("BEFORE ROLLEBACK");
+        chessBoard.display();
 
         // Rollback
+        chessBoard.removePieceAt(move.getTo());
         chessBoard.placePieceAt(this, move.getFrom());
-        System.out.println("IS BE CHECK : " + isKingCheck);
+        if(previousPiece != null){
+            chessBoard.placePieceAt(previousPiece, move.getTo());
+        }
+        System.out.println("AFTET");
+        chessBoard.display();
 
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
         return isKingCheck;
     }
 

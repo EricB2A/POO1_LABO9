@@ -6,6 +6,7 @@ import chess.PlayerColor;
 import chess.engine.pieces.*;
 
 import java.awt.*;
+import java.util.List;
 
 public class ChessGame implements ChessController {
 
@@ -27,6 +28,7 @@ public class ChessGame implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
+        System.out.println("clicked");
         Point from = new Point(fromX, fromY);
         Point to = new Point(toX ,toY);
         if(chessBoard.isCellEmpty(from)){
@@ -35,8 +37,12 @@ public class ChessGame implements ChessController {
         Piece toMove = chessBoard.getCellAt(from);
 
         if(isItsTurn(toMove)){
-            for (Move move : toMove.getMoves(from, false)){
+            System.out.println("its turn !!!!");
+            List<Move> moves = toMove.getMoves(from, false);
+            for(Move move : moves){
+                System.out.println("Move " + move.getFrom() + " -> " + move.getTo() + " , equals = " + move.equals(to) );
                 if(move.equals(to)){
+                    System.out.println("yeeeee");
                     removePieceAt(from);
                     placePieceAt(toMove, to);
 
@@ -44,7 +50,7 @@ public class ChessGame implements ChessController {
                         switch (move.getSpecialMove()) {
                             case PAWN_EN_PASSANT:
                                 // todo redondant voir plus bas => faire fonction ? library class Utils ?
-                                int deltaPlayer = toMove.getSide() == Side.TOP ? 1 : -1;
+                                int deltaPlayer = toMove.getSide() == Side.BOTTOM ? 1 : -1;
                                 removePieceAt(new Point(toX, toY - deltaPlayer));
                                 break;
 
@@ -117,8 +123,8 @@ public class ChessGame implements ChessController {
         Player player1 = new Player(PlayerColor.WHITE);
         Player player2 = new Player(PlayerColor.BLACK);
 
-        chessBoard.setUpTeam(player1, Side.TOP);
-        chessBoard.setUpTeam(player2, Side.BOTTOM);
+        chessBoard.setUpTeam(player1, Side.BOTTOM);
+        chessBoard.setUpTeam(player2, Side.TOP);
 
         for(int x = 0; x < nCote; ++x){
             for(int y = 0; y < nCote; ++y){

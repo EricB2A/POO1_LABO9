@@ -33,7 +33,7 @@ public class King extends Piece implements SpecialFirstMove {
         Move.addMove(pos, new Point(x , y - 1), this, moves, virtual);
 
         // Gestion du castle.
-        if (!hasMoved) {
+        if (!virtual && !hasMoved) {
             Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x + 4, y));
             Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x - 3, y));
 

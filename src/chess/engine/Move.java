@@ -19,6 +19,7 @@ public class Move {
 
     public boolean equals(Point pos){
             return to.equals(pos);
+            //return to.x == pos.x && to.y == pos.y;
     }
 
     public static boolean inBound(Point pos, int dimension){
@@ -36,8 +37,19 @@ public class Move {
         if(Move.inBound(to, chessBoard.getDimension())) {
             Piece piece = chessBoard.getCellAt(to);
             if (piece == null || piece.getColor() != originalPiece.getColor()) {
-                moves.add(new Move(from, to, specialMove));
+                _add(originalPiece, new Move(from, to, specialMove), moves, virtual);
+                // moves.add(new Move(from, to, specialMove));
             }
+        }
+    }
+
+    public static void _add(Piece piece, Move move, List<Move> moves, boolean virtual){
+        if(!virtual){
+            if(!(piece.willBeCheck(move))){
+                moves.add(move);
+            }
+        }else{
+            moves.add(move);
         }
     }
 
@@ -48,10 +60,12 @@ public class Move {
         while(inBound(to, chessBoard.getDimension())){
             Piece piece = chessBoard.getCellAt(to);
             if(piece == null){
-                moves.add(new Move(from, to));
+                // moves.add(new Move(from, to));
+                _add(originalPiece, new Move(from, to), moves, virtual);
             }else if(piece.getColor() != originalPiece.getColor()){
                 // Oh wow, une pièce adverse.
-                moves.add(new Move(from, to));
+                // moves.add(new Move(from, to));
+                _add(originalPiece, new Move(from, to), moves, virtual);
                 break; // On ne peut aller plus loin, quittons la boucle !
             }else{
                 break;

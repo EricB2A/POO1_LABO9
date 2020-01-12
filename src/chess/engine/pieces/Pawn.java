@@ -4,14 +4,14 @@ import chess.PieceType;
 import chess.PlayerColor;
 import chess.engine.*;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
-    private int deltaPlayer = getSide() == Side.TOP ? 1 : -1;
+    private int deltaPlayer = getSide() == Side.BOTTOM ? 1 : -1;
 
     public Pawn(PieceColor color, ChessBoard chessBoard) {
         super(PieceType.PAWN, color, chessBoard);
@@ -19,7 +19,7 @@ public class Pawn extends Piece implements SpecialFirstMove {
 
     @Override
     public List<Move> getMoves(Point pos, boolean virtual) {
-        List<Move> moves = new ArrayList<Move>();
+        List<Move> moves = new ArrayList<>();
         ChessBoard chessBoard = this.getChessBoard();
         SpecialMove specialMove = canBePromoted(pos.y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
         int x = pos.x, y = pos.y;
@@ -27,16 +27,21 @@ public class Pawn extends Piece implements SpecialFirstMove {
         // avance 1 case avec possible promotion
         if(chessBoard.isCellEmpty(new Point(x, y + deltaPlayer)) ){
             // avance de 2 cases
-            if(!hasMoved && chessBoard.isCellEmpty(new Point(x, y+ 2 * deltaPlayer))){
-                moves.add(new Move(pos, new Point(x, y + 2 * deltaPlayer), SpecialMove.PAWN_FAST_MOVE));
+            Move fastMove = new Move(pos, new Point(x, y + 2 * deltaPlayer), specialMove.PAWN_FAST_MOVE);
+            if(!hasMoved && chessBoard.isCellEmpty(fastMove.getTo())){
+                Move._add(this, fastMove, moves, virtual);
+                //moves.add(fastMove);
             }
+
             Move.addMove(pos, new Point(x, y + deltaPlayer), this, moves, specialMove, virtual);
         }
-        if (canAttack(new Point(x + 1, y + deltaPlayer))) {
-            Move.addMove(pos, new Point(x + 1, y + deltaPlayer), this, moves, specialMove, virtual);
+        Move sideAttack1 = new Move(pos, new Point(x + 1, y + deltaPlayer));
+        if (canAttack(sideAttack1.getTo())) {
+            Move.addMove(pos, sideAttack1.getTo(), this, moves, specialMove, virtual);
         }
-        if (canAttack(new Point(x - 1, y + deltaPlayer))) {
-            Move.addMove(pos, new Point(x - 1, y + deltaPlayer), this, moves, specialMove, virtual);
+        Move sideAttack2 = new Move(pos, new Point(x - 1, y + deltaPlayer));
+        if (canAttack(sideAttack2.getTo())) {
+            Move.addMove(pos, sideAttack2.getTo(), this, moves, specialMove, virtual);
         }
 
         // prise en passant: on regarde si le dernier mouvement correspond à un déplacement de 2 (d'un pion évidemment)
@@ -77,6 +82,6 @@ public class Pawn extends Piece implements SpecialFirstMove {
 
     private boolean canAttack(Point to) {
         ChessBoard chessBoard = this.getChessBoard();
-        return Move.inBound(to, chessBoard.getDimension()) && !chessBoard.isCellEmpty(to) && chessBoard.getCellAt(to).getColor() != getColor();
+        return Move.inBound(to, chessBoard.getDimension());
     }
 }
