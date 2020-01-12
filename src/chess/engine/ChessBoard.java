@@ -149,14 +149,14 @@ public class ChessBoard {
         board[side.position][N_COTE - 3] = new Bishop(pieceColor, this);
 
         // King
-        board[side.position][3] = new King(pieceColor, this);
+        board[side.position][4] = new King(pieceColor, this);
         if(player.getColor() == PlayerColor.WHITE){
-            whiteKing = new Point(3, side.position);
+            whiteKing = new Point(4, side.position);
         }else{
-            blackKing = new Point(3, side.position);
+            blackKing = new Point(4, side.position);
         }
 
         // Queen
-        board[side.position][4] = new Queen(pieceColor, this);
+        board[side.position][3] = new Queen(pieceColor, this);
     }
 }
