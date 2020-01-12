@@ -44,7 +44,6 @@ public class King extends Piece implements SpecialFirstMove {
 
             }
             if (leftRook != null && leftRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x + 1, y)) && chessBoard.isCellEmpty(new Point(x + 2, y))) {
-
                 Move move = new Move(pos, new Point(x + 2, y), SpecialMove.KING_SHORT_CASTLED);
                 Move._add(this, move, moves, false);
                 //_add(Piece piece, Move move, List<Move> moves, boolean virtual, SpecialMove specialMove)

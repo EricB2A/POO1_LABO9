@@ -6,10 +6,8 @@ import chess.PlayerColor;
 import chess.engine.pieces.*;
 
 import java.awt.*;
-import java.util.List;
 
 public class ChessGame implements ChessController {
-
     private ChessView view;
     private ChessBoard chessBoard;
 
@@ -20,7 +18,7 @@ public class ChessGame implements ChessController {
     @Override
     public void start(ChessView view) {
         if(view == null){
-            throw new RuntimeException("Wtf is this view.");
+            throw new RuntimeException("Qu'est-ce qu'is this view.");
         }
         view.startView();
         this.view = view;
@@ -32,7 +30,6 @@ public class ChessGame implements ChessController {
 
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
-        System.out.println("clicked");
         Point from = new Point(fromX, fromY);
         Point to = new Point(toX ,toY);
         if(chessBoard.isCellEmpty(from)){
@@ -41,12 +38,8 @@ public class ChessGame implements ChessController {
         Piece toMove = chessBoard.getCellAt(from);
 
         if(isItsTurn(toMove)){
-            System.out.println("its turn !!!!");
-            List<Move> moves = toMove.getMoves(from, false);
-            for(Move move : moves){
-                System.out.println("Move " + move.getFrom() + " -> " + move.getTo() + " , equals = " + move.equals(to) );
+            for(Move move : toMove.getMoves(from, false)){
                 if(move.equals(to)){
-                    System.out.println("yeeeee");
                     removePieceAt(from);
                     placePieceAt(toMove, to);
 
@@ -121,11 +114,13 @@ public class ChessGame implements ChessController {
 
     @Override
     public void newGame() {
-        int nCote = 8;
-        ChessBoard chessBoard = new ChessBoard(nCote, this);
+        ChessBoard chessBoard = new ChessBoard(this);
+        int nCote = chessBoard.getDimension();
 
         Player player1 = new Player(PlayerColor.WHITE);
         Player player2 = new Player(PlayerColor.BLACK);
+        System.out.println(Side.BOTTOM.position);
+        System.out.println(Side.TOP.position);
 
         chessBoard.setUpTeam(player1, Side.BOTTOM);
         chessBoard.setUpTeam(player2, Side.TOP);

@@ -19,7 +19,6 @@ public class Rook extends Piece implements ChessView.UserChoice, SpecialFirstMov
     @Override
     public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<>();
-        ChessBoard chessBoard = this.getChessBoard();
 
         // Ligne bas.
         Move.addMoves(pos, new Point(0, 1), this, moves, virtual);

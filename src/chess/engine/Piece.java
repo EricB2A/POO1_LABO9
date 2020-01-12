@@ -35,25 +35,14 @@ public abstract class Piece  {
         chessBoard.placePieceAt(this, move.getTo());
 
         // Est-ce que mon roi va prendre cher ?
-
         boolean isKingCheck = chessBoard.isCheck(color.getColor());
-        System.out.println("MON ROI PREND CHER ? " + isKingCheck);
-        System.out.println("BEFORE ROLLEBACK");
-        chessBoard.display();
 
-        // Rollback
+        // Rollback du move.
         chessBoard.removePieceAt(move.getTo());
         chessBoard.placePieceAt(this, move.getFrom());
         if(previousPiece != null){
             chessBoard.placePieceAt(previousPiece, move.getTo());
         }
-        System.out.println("AFTET");
-        chessBoard.display();
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
         return isKingCheck;
     }
 

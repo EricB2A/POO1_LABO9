@@ -4,34 +4,25 @@ import chess.PlayerColor;
 import chess.engine.pieces.*;
 
 import java.awt.Point;
-import java.sql.SQLOutput;
-import java.util.List;
 
 public class ChessBoard {
-    private int N_COTE;
+    private static int N_COTE = 8;
     private Piece board[][];
     private Move lastMove;
     ChessGame chessGame;
     Point whiteKing;
     Point blackKing;
-    private String checkTextMessage = "Echec.";
+    private String checkTextMessage = "Echec";
 
-    public ChessBoard(int nCote, ChessGame chessGame){
-        if(nCote < 0 ){
-            throw new RuntimeException("Size of the damier doit être positif.");
-        }
+    public ChessBoard(ChessGame chessGame){
         if(chessGame == null){
             throw new RuntimeException("We need une partie to play.");
         }
-        this.N_COTE = nCote;
-        this.board = new Piece[nCote][nCote];
+        this.board = new Piece[N_COTE][N_COTE];
         this.chessGame = chessGame;
     }
 
-    //NOTE: Le message s'affiche quand c'est au tour du joueur en échec de jouer.. totalement une feature :).
     public boolean isCheck(PlayerColor playerColor){
-
-        boolean check;
         if(playerColor == PlayerColor.WHITE){
             return isUnderAttack(whiteKing, PlayerColor.BLACK);
         }else{
@@ -45,15 +36,10 @@ public class ChessBoard {
                 Piece possibleOpponent = board[y][x];
                 // Est-ce qu'il s'agit d'un adversaire (pouvant donc attaque pièce) ?
                 if(possibleOpponent != null && possibleOpponent.getColor() == opponentColor){
-                    List<Move> moves = possibleOpponent.getMoves(new Point(x, y), true);
-                    for(Move move : moves){
-
-                        System.out.println("MOVE " + move.getFrom() + " --> " + move.getTo() + " king @ " + piece);
+                    for(Move move : possibleOpponent.getMoves(new Point(x, y), true)){
                         if(move.equals(piece)){
-                            System.out.println("CHECK BY "  + possibleOpponent + " @ " + move.getFrom() + " --> " + move.getTo());
                             return true;
                         }
-                        //System.out.println(move.getFrom() + " -> " + move.getTo() + "looking for ->" + piece + "by --> " + possibleOpponent);
                     }
                 }
             }
@@ -69,7 +55,7 @@ public class ChessBoard {
         return true;
     }
     
-    // todo : à supprimer
+    // TODO : à supprimer
     public void display(){
         for(int j = N_COTE - 1 ; j >= 0; --j){
             StringBuilder str = new StringBuilder();
@@ -111,14 +97,13 @@ public class ChessBoard {
     }
 
     public boolean isCellEmpty(Point pos){
-        //TOOD: redondant avec Move.Inbound !!
-        if((pos.x >= 0 && pos.x < N_COTE) && (pos.y >= 0 && pos.y < N_COTE)){
+        if(Move.inBound(pos, N_COTE)){
             return board[pos.y][pos.x] == null;
         }
         return false;
     }
 
-    public int getDimension(){
+    public static int getDimension(){
         return N_COTE;
     }
 

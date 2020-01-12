@@ -16,7 +16,6 @@ public class Queen extends Piece implements ChessView.UserChoice {
 
     public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<Move>();
-        ChessBoard chessBoard = this.getChessBoard();
 
         // Diagonale droite inférieure.
         Move.addMoves(pos, new Point(1, 1), this, moves, virtual);
