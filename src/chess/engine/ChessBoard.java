@@ -42,7 +42,6 @@ public class ChessBoard {
     }
 
     public void placePieceAt(Piece piece, Point pos){
-        System.out.println("Moving piece...");
         board[pos.x][pos.y] = piece;
     }
 
@@ -54,8 +53,12 @@ public class ChessBoard {
         return N_COTE;
     }
 
+    // todo voir si utile si oui
     public Piece getCellAt(Point pos){
         return board[pos.x][pos.y];
+    }
+    public Piece getCellAt(int x, int y){
+        return board[x][y];
     }
 
     public Move getLastMove(){

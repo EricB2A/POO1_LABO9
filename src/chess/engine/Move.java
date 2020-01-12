@@ -11,6 +11,12 @@ public class Move {
         this.from = new Point(from);
         this.to = new Point(to);
     }
+    // copy
+    public Move(Move move){
+
+        this.from = new Point(move.getFrom());
+        this.to = new Point(move.getTo());
+    }
 
     public Move(Point from, Point to, SpecialMove specialMove){
         this(from, to);
@@ -55,17 +61,16 @@ public class Move {
             }else{
                 break;
             }
-            to.x += delta.x;
-            to.y += delta.y;
+
+            to.translate(delta.x, delta.y);
         }
     }
 
     public SpecialMove getSpecialMove(){
         return specialMove;
     }
-    public Point getFrom(){
-        return from;
-    }
+    public void setSpecialMove(SpecialMove specialMove){this.specialMove = specialMove;}
+    public Point getFrom(){return from;}
     public Point getTo(){
         return to;
     }
