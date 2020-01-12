@@ -82,6 +82,6 @@ public class Pawn extends Piece implements SpecialFirstMove {
 
     private boolean canAttack(Point to) {
         ChessBoard chessBoard = this.getChessBoard();
-        return Move.inBound(to, chessBoard.getDimension());
+        return Move.inBound(to, chessBoard.getDimension()) && !chessBoard.isCellEmpty(to) && chessBoard.getCellAt(to).getColor() != getColor();
     }
 }

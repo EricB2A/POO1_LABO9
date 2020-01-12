@@ -26,6 +26,10 @@ public class ChessGame implements ChessController {
         this.view = view;
     }
 
+    protected void displayMessage(String message){
+        view.displayMessage(message);
+    }
+
     @Override
     public boolean move(int fromX, int fromY, int toX, int toY) {
         System.out.println("clicked");
@@ -65,15 +69,15 @@ public class ChessGame implements ChessController {
                                 break;
                             // TODO voir si factorisable
                             case KING_LONG_CASTLED:
-                                Rook rRook = (Rook) chessBoard.getCellAt(new Point(toX + 2, toY));
-                                removePieceAt(new Point(toX + 2, toY));
-                                placePieceAt(rRook, new Point(toX - 1, toY));
+                                Rook rRook = (Rook) chessBoard.getCellAt(new Point(toX - 2, toY));
+                                removePieceAt(new Point(toX - 2, toY));
+                                placePieceAt(rRook, new Point(toX + 1, toY));
                                 break;
 
                             case KING_SHORT_CASTLED:
-                                Rook lRook = (Rook) chessBoard.getCellAt(new Point(toX - 1, toY));
-                                removePieceAt(new Point(toX - 1, toY));
-                                placePieceAt(lRook, new Point(toX + 1, toY));
+                                Rook lRook = (Rook) chessBoard.getCellAt(new Point(toX + 1, toY));
+                                removePieceAt(new Point(toX + 1, toY));
+                                placePieceAt(lRook, new Point(toX - 1, toY));
                                 break;
 
                         }
@@ -118,7 +122,7 @@ public class ChessGame implements ChessController {
     @Override
     public void newGame() {
         int nCote = 8;
-        ChessBoard chessBoard = new ChessBoard(nCote);
+        ChessBoard chessBoard = new ChessBoard(nCote, this);
 
         Player player1 = new Player(PlayerColor.WHITE);
         Player player2 = new Player(PlayerColor.BLACK);

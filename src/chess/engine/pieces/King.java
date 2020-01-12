@@ -37,12 +37,18 @@ public class King extends Piece implements SpecialFirstMove {
             Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x + 3, y));
             Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x - 4, y));
 
-            if (rightRook != null && rightRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x + 1, y)) && chessBoard.isCellEmpty(new Point(x + 2, y))
-                    && chessBoard.isCellEmpty(new Point(x + 3, y))) {
-                moves.add(new Move(pos, new Point(x + 2, y), SpecialMove.KING_LONG_CASTLED));
+            if (rightRook != null && rightRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
+                    && chessBoard.isCellEmpty(new Point(x - 3, y))) {
+                Move move = new Move(pos, new Point(x - 2, y), SpecialMove.KING_LONG_CASTLED);
+                Move._add(this, move, moves, false);
+
             }
-            if (leftRook != null && leftRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))) {
-                moves.add(new Move(pos, new Point(x - 2, y), SpecialMove.KING_SHORT_CASTLED));
+            if (leftRook != null && leftRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x + 1, y)) && chessBoard.isCellEmpty(new Point(x + 2, y))) {
+
+                Move move = new Move(pos, new Point(x + 2, y), SpecialMove.KING_SHORT_CASTLED);
+                Move._add(this, move, moves, false);
+                //_add(Piece piece, Move move, List<Move> moves, boolean virtual, SpecialMove specialMove)
+                //moves.add();
             }
         }
 

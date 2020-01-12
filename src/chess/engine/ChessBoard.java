@@ -11,28 +11,31 @@ public class ChessBoard {
     private int N_COTE;
     private Piece board[][];
     private Move lastMove;
+    ChessGame chessGame;
     Point whiteKing;
     Point blackKing;
 
-    public ChessBoard(int nCote){
+    public ChessBoard(int nCote, ChessGame chessGame){
         if(nCote < 0 ){
             throw new RuntimeException("Size of the damier doit être positif.");
         }
+        if(chessGame == null){
+            throw new RuntimeException("We need une partie to play.");
+        }
         this.N_COTE = nCote;
         this.board = new Piece[nCote][nCote];
+        this.chessGame = chessGame;
     }
 
+    //NOTE: Le message s'affiche quand c'est au tour du joueur en échec de jouer.. totalement une feature :).
     public boolean isCheck(PlayerColor playerColor){
 
-        boolean b;
+        boolean check;
         if(playerColor == PlayerColor.WHITE){
-            b = isUnderAttack(whiteKing, PlayerColor.BLACK);
-            System.out.println("===========WHITE KING IN DANGER");
+            return isUnderAttack(whiteKing, PlayerColor.BLACK);
         }else{
-            b = isUnderAttack(blackKing, PlayerColor.WHITE);
-            System.out.println("===========NIGGA KING IN DANGER");
+            return isUnderAttack(blackKing, PlayerColor.WHITE);
         }
-        return b;
     }
 
     private boolean isUnderAttack(Point piece, PlayerColor opponentColor){
