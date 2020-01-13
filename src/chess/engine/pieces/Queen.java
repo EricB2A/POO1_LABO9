@@ -20,7 +20,7 @@ Remarque(s) 	: -
 
 Compilateur	    : javac 11.0.4
 --------------------------- */
-public
+
 public class Queen extends Piece implements ChessView.UserChoice {
     /**
      * Constructeur de la pièce.
