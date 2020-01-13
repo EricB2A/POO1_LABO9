@@ -11,8 +11,8 @@ Fichier 		: engine/ChessBoard.java
 Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
 Date			: 14.01.2020
 
-But 			: Classe représentant l'échiquier sur lequel se déroule une partie. L'échiquier est une grille carrée de 8 cases de côté,
-                  dont chaque cellule peut contenir une pièce.
+But 			: Classe représentant l'échiquier sur lequel se déroule une partie. L'échiquier est une grille carrée de N_COTE
+                  cases de côté, dont chaque cellule peut contenir une pièce.
 
 Remarque(s) 	: - La cellule située tout en bas à gauche de l'échiquier est accessible via le point (0,0).
 
@@ -22,15 +22,15 @@ public class ChessBoard {
     private static final int N_COTE = 8;
     private Piece[][] board;
     private Move lastMove;
-    ChessGame chessGame;
-    Point whiteKing;
-    Point blackKing;
+    private ChessGame chessGame;
+    private Point whiteKing;
+    private Point blackKing;
     private final static String CHECK_TEXT_MESSAGE = "Echec";
 
     /**
      * Constructeur de l'échiquier.
      * @param chessGame référence sur l'instance d'une partie.
-     * @throws RuntimeException est lancé quand on construit l'object sans chessGame
+     * @throws RuntimeException Est lancé quand on construit l'object sans chessGame
      */
     protected ChessBoard(ChessGame chessGame){
         if(chessGame == null){
@@ -43,7 +43,7 @@ public class ChessBoard {
     /**
      * @param playerColor Couleur de l'équipe pouvant être en échec.
      * @return Vrai si l'équipe de la couleur donnée est en échec,
-     *          Non dans le cas contraire.
+     *          faux dans le cas contraire.
      */
     public boolean isCheck(PlayerColor playerColor){
         if(playerColor == PlayerColor.WHITE){
@@ -55,16 +55,17 @@ public class ChessBoard {
 
     /**
      * Est-ce que la pièce donnée peut être attaquée par l'équipe adverse ?
-     * @param piece Pièce attaquée.
-     * @param opponentColor Couleur de l'équipe adverse.
+     * @param piece Position de la pièce attaquée.
+     * @param opponentColor Couleur de l'équipe adverse (celle qui attaque pièce).
      * @return Vrai si la pièce peut être attaquée, faux dans le cas contraire.
      */
     public boolean isUnderAttack(Point piece, PlayerColor opponentColor){
         for(int y = 0; y < N_COTE; ++y){
             for(int x = 0; x < N_COTE; ++x){
                 Piece possibleOpponent = board[y][x];
-                // Est-ce qu'il s'agit d'un adversaire (pouvant donc attaque pièce) ?
+                // Est-ce qu'il s'agit d'un adversaire ?
                 if(possibleOpponent != null && possibleOpponent.getColor() == opponentColor){
+                    // Oh je vois.. mais est-ce qu'il peut attaquer pièce ?
                     for(Move move : possibleOpponent.getMoves(new Point(x, y), true)){
                         if(move.equals(piece)){
                             return true;
@@ -94,7 +95,7 @@ public class ChessBoard {
     /**
      * Place la pièce sur l'échiquier. Ecrase le contenu de la cellule.
      * NOTE: La fonction peut également envoyer une message d'affichage à l'instance de jeu
-     *       (chessgame) si un joueur est en échec suite au nouvel emplacement
+     *       (chessGame) si un joueur est en échec suite aux nouvelles disposition des pièces.
      *       de la pièce.
      * @param piece Pièce placer.
      * @param pos Emplacement (x,y) de la cellule cible.
@@ -111,6 +112,7 @@ public class ChessBoard {
             }
         }
 
+        // Est-ce que le nouveau positionnement des pièces met le roi adverse (celui qui n'a pas joué) en échec ?
         if(isCheck(piece.getColor() == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE)){
             chessGame.displayMessage(CHECK_TEXT_MESSAGE);
         }else{
@@ -119,7 +121,7 @@ public class ChessBoard {
     }
 
     /**
-     * Est-ce que la cellule ne contient aucune pièce (référence null).
+     * Est-ce que la cellule ne contient aucune pièce (référence null) ?
      * @param pos Coordonnées de la cellule cible (x,y).
      * @return Vrai si la cellule contient une pièce, faux dans le
      * cas contraire.
@@ -133,7 +135,7 @@ public class ChessBoard {
 
     /**
      * @return Retourne les dimensions de l'échiquier.
-     *          Pour rappel, l'échiquier est une grille carrée de N cellules.
+     *         Pour rappel, l'échiquier est une grille carrée de N_COTE cellules.
      */
     public static int getDimension(){
         return N_COTE;
@@ -142,23 +144,21 @@ public class ChessBoard {
     /**
      * Retourne le contenu d'une cellule cible.
      * @param pos Position de la cellule.
-     * @return Contenu de la cellule. Peut ou non
-     * contenir une pièce ou une réféence null.
+     * @return Contenu de la cellule. Peut contenir une pièce ou une réféence null.
      */
     public Piece getCellAt(Point pos){
         return board[pos.y][pos.x];
     }
 
     /**
-     * @return Retourne le dernier mouvement effectué
-     * sur l'échiquier.
+     * @return Retourne le dernier mouvement effectué sur l'échiquier.
      */
     public Move getLastMove(){
         return lastMove;
     }
 
     /**
-     * Stocke le dernier mouvement
+     * Stocke le dernier mouvement donné.
      * @param move Mouvement à stocker.
      * NOTE: Si vous vous demandez pourquoi ne pas stocker une Point (une coordonnée)
      *       à la place (ce qui nous permettrait de ne pas avoir de méthode set), il faut
@@ -171,7 +171,7 @@ public class ChessBoard {
     }
 
     /**
-     * Configure l'échiquier avec une configuration standard de 
+     * Configure l'échiquier avec une configuration standard de jeu d'échec.
      * @param player
      * @param side
      */
@@ -207,6 +207,7 @@ public class ChessBoard {
         }else{
             blackKing = new Point(4, side.position);
         }
+        
         // Reine
         board[side.position][3] = new Queen(pieceColor, this);
     }

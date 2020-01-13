@@ -16,7 +16,7 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Fou.
 
-Remarque(s) 	: implémente l'interface ChessView.UserChoice car il fait parti des choix de promotion du pion
+Remarque(s) 	: - Implémente l'interface ChessView.UserChoice car il fait parti des choix de promotion du Pion.
 
 Compilateur	    : javac 11.0.4
 --------------------------- */
@@ -49,7 +49,7 @@ public class Bishop extends Piece implements ChessView.UserChoice {
 
         return moves;
     }
-
+    
     @Override
     public String textValue() {
         return "Fou";

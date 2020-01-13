@@ -16,7 +16,7 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Cavalier.
 
-Remarque(s) 	: implémente l'interface ChessView.UserChoice car il fait partie des choix de promotion du pion
+Remarque(s) 	: - Le Cavalier implémente l'interface ChessView.UserChoice car il fait parti des choix de promotion du Pion.
 
 Compilateur	    : javac 11.0.4
 --------------------------- */
@@ -44,7 +44,6 @@ public class Knight extends Piece implements ChessView.UserChoice {
         Move.addMove(pos, new Point(x - 1, y + 2), this, moves, virtual);
         Move.addMove(pos, new Point(x + 1, y - 2), this, moves, virtual);
         Move.addMove(pos, new Point(x - 1, y - 2), this, moves, virtual);
-
         Move.addMove(pos, new Point(x + 2, y + 1), this, moves, virtual);
         Move.addMove(pos, new Point(x - 2, y + 1), this, moves, virtual);
         Move.addMove(pos, new Point(x + 2, y - 1), this, moves, virtual);

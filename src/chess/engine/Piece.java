@@ -59,8 +59,8 @@ public abstract class Piece  {
     public abstract List<Move> getMoves(Point pos, boolean virtual);
 
     /**
-     * Est-ce que le mouvement donné va mettre en échec le roi de l'équie de la pièce ?
-     * @param move Mouvement à tester
+     * Est-ce que le mouvement donné va mettre en échec le roi de l'équipe de la pièce ?
+     * @param move Mouvement à tester.
      * @return Vrai si le roi sera en échec. Faux dans le cas contraire.
      */
     public boolean willBeCheck(Move move){

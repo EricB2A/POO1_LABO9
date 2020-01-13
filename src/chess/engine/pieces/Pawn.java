@@ -16,8 +16,8 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Pion.
 
-Remarque(s) 	: - Les pions implémentent l'interface SpecialFirstMove afin d'effectuer le
-                    déplacement rapide de la pièce.
+Remarque(s) 	: - Le Pion implémente l'interface SpecialFirstMove afin d'effectuer le déplacement rapide de la pièce
+                    ainsi que la promotion.
 
 Compilateur	    : javac 11.0.4
 --------------------------- */

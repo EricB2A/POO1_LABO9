@@ -63,10 +63,6 @@ public class Move {
         return (pos.x >= 0 && pos.x < dimension) && (pos.y >= 0 && pos.y < dimension);
     }
 
-    // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
-    // mais pas sur cellule avec pièce alliée.
-    //TODO.
-
     /**
      * Ajoute mouvement simple (càd non spécial).
      * cf. addMove (l'autre).
@@ -77,10 +73,10 @@ public class Move {
 
     /**
      * Ajoute un mouvement légal à la liste de mouvements donnés. Un mouvement part d'un point from pour atteindre un point to.
-     * Un mouvement est considéré légal s'il respecgte les points suivants :
-     *  - S'il sa destination est dans les dimensions du damier.
+     * Un mouvement est considéré légal s'il respecte les points suivants :
+     *  - Si sa destination est dans les dimensions du damier.
      *  - Si la cellule destination est vide ou contient une pièce ennemie.
-     *  - Si le mouvement ne vas pas mettre en échec le roi de la pièce bougée.
+     *  - Si le mouvement ne vas pas mettre en échec le roi de l'équipe de la pièce bougée.
      *  Notons cependant que le dernier test peut-être omis dans le cas où l'argument virtual est à vrai.
      *  Dans ce cas, un mouvement est légal même si ce dernier met en échec le roi ou non.
      * @param from Point duquel part le mouvement.
@@ -104,6 +100,8 @@ public class Move {
     /**
      * Ajoute le mouvement donnée à la liste de mouvements, si ce dernier ne va pas mettre en échec le roi de la pièce
      * à déplacer. Ce test peut être omis si l'argument virtual est à vrai.
+     * Cette méthode ne vérifie pas si la cellule cible est vide, si elle contient une pièce ennemie ou amie
+     * ni si cette dernière est dans les dimensions de l'échiquier.
      * @param piece Pièce à déplacer.
      * @param move Mouvement effectué sur la pièce.
      * @param moves Liste de mouvements sur laquelle va possiblement s'ajouter le mouvement.

@@ -8,7 +8,7 @@ Date			: 14.01.2020
 
 But 			: Interface que peuvent implémenter certaines pièces,
                    dont on souhaite savoir si elles sont déjà été déplacées
-                   dans le cours d'une partie (Exemple : Roi avant un Caslte, Pion avance de 2 cases).
+                   dans le cours d'une partie (Exemple : Roi avant un roque, Pion avance de 2 cases).
 
 Remarque(s) 	: - 
 

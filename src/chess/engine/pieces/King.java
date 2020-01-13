@@ -16,8 +16,7 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Roi.
 
-Remarque(s) 	: - Les Rois implémentent l'interface SpecialFirstMove afin d'effectuer
-                    l'opération de long et court Castle.
+Remarque(s) 	: - Le Roi implémentente l'interface SpecialFirstMove afin d'effectuer le petit et le grand roque.
 
 Compilateur	    : javac 11.0.4
 --------------------------- */
@@ -64,7 +63,7 @@ public class King extends Piece implements SpecialFirstMove {
 
         PlayerColor opponentColor = PieceColor.getOpponentColor(getColor());
 
-        // Gestion du castle.
+        // Gestion du roque.
         if (!virtual && !hasMoved && !chessBoard.isUnderAttack(pos, opponentColor)) {
             Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x + 3, y));
             Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x - 4, y));

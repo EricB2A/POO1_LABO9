@@ -43,7 +43,6 @@ public class ChessGame implements ChessController {
 
     }
 
-
     /**
      * Effectue le mouvement sur l'échiquier si ce dernier est légal. Un mouvement légal
      * doit respecter les règles de déplacement de la pièce sélectionnée et la pièce se déplaçant
@@ -77,24 +76,23 @@ public class ChessGame implements ChessController {
                     // s'il s'agit d'un mouvement spécial, on applique les règles spécifique à celle-ci
                     if(move.getSpecialMove() != null) {
                         switch (move.getSpecialMove()) {
-                            case PAWN_EN_PASSANT:
-                                // todo redondant voir plus bas => faire fonction ? library class Utils ?
+                            case PAWN_EN_PASSANT: // Prise en passant.
                                 int deltaPlayer = toMove.getSide() == Side.BOTTOM ? 1 : -1;
                                 removePieceAt(new Point(toX, toY - deltaPlayer));
                                 break;
 
-                            case PAWN_PROMOTION:
+                            case PAWN_PROMOTION: // Promotion de Pion.
                                 PieceColor pc = new PieceColor(toMove.getColor(), toMove.getSide());
                                 promotePawn(pc, to);
                                 break;
-                                // gestion du roque
-                            case KING_LONG_CASTLED:
+                                
+                            case KING_LONG_CASTLED: // Grand roque.
                                 Rook rRook = (Rook) chessBoard.getCellAt(new Point(toX - 2, toY));
                                 removePieceAt(new Point(toX - 2, toY));
                                 placePieceAt(rRook, new Point(toX + 1, toY));
                                 break;
 
-                            case KING_SHORT_CASTLED:
+                            case KING_SHORT_CASTLED: // Petit roque.
                                 Rook lRook = (Rook) chessBoard.getCellAt(new Point(toX + 1, toY));
                                 removePieceAt(new Point(toX + 1, toY));
                                 placePieceAt(lRook, new Point(toX - 1, toY));
@@ -174,7 +172,7 @@ public class ChessGame implements ChessController {
      * Enlève une pièce de l'échiquier.
      * Met à jour la vue.
      * @param pos Coordonnée (x,y) de la pièce à enlever.
-     * @throws RuntimeException Si la cellule à supprimer est vide.
+     * @throws RuntimeException Si la cellule à vider est vide.
      */
     private void removePieceAt(Point pos){
         if(!chessBoard.removePieceAt(pos)){
@@ -201,16 +199,16 @@ public class ChessGame implements ChessController {
 
 
     /**
-     * Promu le pion dont on donne la position et la couleur
-     * @param couleurPion couleur du pion à promouvoir
-     * @param positionPion position du pion
+     * Promu le pion dont on donne la position et la couleur.
+     * @param pos couleur du pion à promouvoir
+     * @param pos position du pion
      */
-    private void promotePawn(PieceColor couleurPion, Point positionPion){
+    private void promotePawn(PieceColor pawnColor, Point pos){
         ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
-                new Queen(couleurPion, chessBoard), new Bishop(couleurPion, chessBoard), new Rook(couleurPion, chessBoard), new Knight(couleurPion, chessBoard));
+                new Queen(pawnColor, chessBoard), new Bishop(pawnColor, chessBoard), new Rook(pawnColor, chessBoard), new Knight(pawnColor, chessBoard));
         if (promoPiece != null) {
-            removePieceAt(positionPion);
-            placePieceAt((Piece) promoPiece, positionPion);
+            removePieceAt(pos);
+            placePieceAt((Piece) promoPiece, pos);
         }
     }
 }
