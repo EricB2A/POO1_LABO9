@@ -68,12 +68,15 @@ public class King extends Piece implements SpecialFirstMove {
             Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x + 3, y));
             Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x - 4, y));
 
+            // on vérifie que les tours n'est pas bouger et que la trajectoire soit libre et non-menacée
+            // ajout du petit roque
             if (leftRook != null && leftRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
                     && chessBoard.isCellEmpty(new Point(x - 3, y)) && !chessBoard.isUnderAttack(new Point(pos.x - 1, pos.y), opponentColor)) {
                 Move move = new Move(pos, new Point(x - 2, y), SpecialMove.KING_LONG_CASTLED);
                 Move.add(this, move, moves, false);
 
             }
+            // ajout du grand roque
             if (rightRook != null && rightRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
                     && chessBoard.isCellEmpty(new Point(x + 2, y)) && !chessBoard.isUnderAttack(new Point(pos.x + 1, pos.y), opponentColor)) {
 
