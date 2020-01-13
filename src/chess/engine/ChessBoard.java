@@ -19,7 +19,7 @@ Remarque(s) 	: - La cellule située tout en bas à gauche de l'échiquier est ac
 Compilateur	    : javac 11.0.4
 --------------------------- */
 public class ChessBoard {
-    private static int N_COTE = 8;
+    private static final int N_COTE = 8;
     private Piece[][] board;
     private Move lastMove;
     ChessGame chessGame;
@@ -30,6 +30,7 @@ public class ChessBoard {
     /**
      * Constructeur de l'échiquier.
      * @param chessGame référence sur l'instance d'une partie.
+     * @throws RuntimeException est lancé quand on construit l'object sans chessGame
      */
     public ChessBoard(ChessGame chessGame){
         if(chessGame == null){
@@ -199,13 +200,13 @@ public class ChessBoard {
 
         // Roi
         board[side.position][4] = new King(pieceColor, this);
+
         // Gardons une référence sur l'emplacement initial des Rois.
         if(player.getColor() == PlayerColor.WHITE){
             whiteKing = new Point(4, side.position);
         }else{
             blackKing = new Point(4, side.position);
         }
-
         // Reine
         board[side.position][3] = new Queen(pieceColor, this);
     }
