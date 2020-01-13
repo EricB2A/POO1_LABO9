@@ -1,7 +1,6 @@
 package chess.engine.pieces;
 
 import chess.PieceType;
-import chess.PlayerColor;
 import chess.engine.*;
 
 import java.awt.*;
@@ -9,14 +8,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/* ---------------------------
+Laboratoire 	: 01
+Fichier 		: engine/pieces/Pawn.java
+Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
+Date			: 14.01.2020
+
+But 			: Implémentation de la pièce Pion.
+
+Remarque(s) 	: - Les pions implémentent l'interface SpecialFirstMove afin d'effectuer le
+                    déplacement rapide de la pièce.
+
+Compilateur	    : javac 11.0.4
+--------------------------- */
 public class Pawn extends Piece implements SpecialFirstMove {
     private boolean hasMoved = false;
     private int deltaPlayer = getSide() == Side.BOTTOM ? 1 : -1;
 
+    /**
+     * Constructeur de la pièce.
+     * @param color Couleur de la pièce.
+     * @param chessBoard Echiquier.
+     */
     public Pawn(PieceColor color, ChessBoard chessBoard) {
         super(PieceType.PAWN, color, chessBoard);
     }
 
+    /**
+     * Retourne la liste de mouvement que possède la pièce à une position donnée.
+     * cf. classe Move.
+     */
     @Override
     public List<Move> getMoves(Point pos, boolean virtual) {
         List<Move> moves = new ArrayList<>();
@@ -24,9 +45,9 @@ public class Pawn extends Piece implements SpecialFirstMove {
         SpecialMove specialMove = canBePromoted(pos.y + deltaPlayer) ? SpecialMove.PAWN_PROMOTION : null;
         int x = pos.x, y = pos.y;
 
-        // avance 1 case avec possible promotion
+        // Avance 1 case avec possible promotion.
         if(chessBoard.isCellEmpty(new Point(x, y + deltaPlayer)) ){
-            // avance de 2 cases
+            // Avance de 2 cases.
             Move fastMove = new Move(pos, new Point(x, y + 2 * deltaPlayer), specialMove.PAWN_FAST_MOVE);
             if(!hasMoved && chessBoard.isCellEmpty(fastMove.getTo())){
                 Move._add(this, fastMove, moves, virtual);
@@ -35,10 +56,12 @@ public class Pawn extends Piece implements SpecialFirstMove {
 
             Move.addMove(pos, new Point(x, y + deltaPlayer), this, moves, specialMove, virtual);
         }
+        // Attaque droite.
         Move sideAttack1 = new Move(pos, new Point(x + 1, y + deltaPlayer));
         if (canAttack(sideAttack1.getTo())) {
             Move.addMove(pos, sideAttack1.getTo(), this, moves, specialMove, virtual);
         }
+        // Attaque gauche.
         Move sideAttack2 = new Move(pos, new Point(x - 1, y + deltaPlayer));
         if (canAttack(sideAttack2.getTo())) {
             Move.addMove(pos, sideAttack2.getTo(), this, moves, specialMove, virtual);
@@ -66,11 +89,17 @@ public class Pawn extends Piece implements SpecialFirstMove {
         return moves;
     }
 
+    /**
+     * @return Est-ce que la pièce a déjà effectué un déplacement.
+     */
     @Override
     public boolean hasAlreadyMoved() {
         return !hasMoved;
     }
 
+    /**
+     * Modif
+     */
     public void hasMoved() {
         this.hasMoved = true;
     }

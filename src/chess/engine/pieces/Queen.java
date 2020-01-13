@@ -2,7 +2,6 @@ package chess.engine.pieces;
 
 import chess.ChessView;
 import chess.PieceType;
-import chess.PlayerColor;
 import chess.engine.*;
 
 import java.awt.Point;

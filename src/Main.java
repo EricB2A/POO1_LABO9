@@ -1,6 +1,7 @@
 import chess.ChessController;
 import chess.ChessView;
 import chess.engine.ChessGame;
+import chess.views.console.ConsoleView;
 import chess.views.gui.GUIView;
 
 class StudentChess {
@@ -11,9 +12,9 @@ class StudentChess {
     ChessController controller = new ChessGame(); // Board est une classe faite et nommée par les étudiant
 
     // 2. Création de la vue désirée
-    ChessView view = new GUIView(controller); // ou console
+    //ChessView view = new GUIView(controller); // ou console
     //TODO: bug avec ConsoleView, view null dans Board.newGame().
-    //ChessView view = new ConsoleView(controller); // ou GUI
+    ChessView view = new ConsoleView(controller); // ou GUI
 
     // 3. Lancement du programme.
     controller.start(view);
