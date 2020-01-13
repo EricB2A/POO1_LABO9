@@ -48,7 +48,7 @@ public class Pawn extends Piece implements SpecialFirstMove {
         // Avance 1 case avec possible promotion.
         if(chessBoard.isCellEmpty(new Point(x, y + deltaPlayer)) ){
             // Avance de 2 cases.
-            Move fastMove = new Move(pos, new Point(x, y + 2 * deltaPlayer), specialMove.PAWN_FAST_MOVE);
+            Move fastMove = new Move(pos, new Point(x, y + 2 * deltaPlayer), SpecialMove.PAWN_FAST_MOVE);
             if(!hasMoved && chessBoard.isCellEmpty(fastMove.getTo())){
                 Move.add(this, fastMove, moves, virtual);
                 //moves.add(fastMove);
@@ -111,7 +111,7 @@ public class Pawn extends Piece implements SpecialFirstMove {
      */
     private boolean canBePromoted(int y) {
         ChessBoard chessBoard =  this.getChessBoard();
-        return y == 0 || y == chessBoard.getDimension() - 1;
+        return y == 0 || y == ChessBoard.getDimension() - 1;
     }
 
     /**
@@ -121,6 +121,6 @@ public class Pawn extends Piece implements SpecialFirstMove {
      */
     private boolean canAttack(Point to) {
         ChessBoard chessBoard = this.getChessBoard();
-        return Move.inBound(to, chessBoard.getDimension()) && !chessBoard.isCellEmpty(to) && chessBoard.getCellAt(to).getColor() != getColor();
+        return Move.inBound(to, ChessBoard.getDimension()) && !chessBoard.isCellEmpty(to) && chessBoard.getCellAt(to).getColor() != getColor();
     }
 }

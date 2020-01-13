@@ -115,7 +115,7 @@ public class ChessGame implements ChessController {
     @Override
     public void newGame() {
         ChessBoard chessBoard = new ChessBoard(this);
-        int nCote = chessBoard.getDimension();
+        int nCote = ChessBoard.getDimension();
 
         Player player1 = new Player(PlayerColor.WHITE);
         Player player2 = new Player(PlayerColor.BLACK);
