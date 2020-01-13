@@ -50,7 +50,7 @@ public class Pawn extends Piece implements SpecialFirstMove {
             // Avance de 2 cases.
             Move fastMove = new Move(pos, new Point(x, y + 2 * deltaPlayer), specialMove.PAWN_FAST_MOVE);
             if(!hasMoved && chessBoard.isCellEmpty(fastMove.getTo())){
-                Move._add(this, fastMove, moves, virtual);
+                Move.add(this, fastMove, moves, virtual);
                 //moves.add(fastMove);
             }
 

@@ -43,14 +43,6 @@ public class ChessGame implements ChessController {
 
     }
 
-    /**
-     * Affiche un message (texte) à l'utilisateur. Il ne s'agit pas d'un pop-up, càd
-     * que l'utilisateur peut continuer à jouer en ayant le message affiché.
-     * @param message Message à afficher.
-     */
-    protected void displayMessage(String message){
-        view.displayMessage(message);
-    }
 
     /**
      * Effectue le mouvement sur l'échiquier si ce dernier est légal. Un mouvement légal
@@ -120,6 +112,46 @@ public class ChessGame implements ChessController {
     }
 
     /**
+     * Initialisation d'une nouvelle partie.
+     */
+    @Override
+    public void newGame() {
+        ChessBoard chessBoard = new ChessBoard(this);
+        int nCote = chessBoard.getDimension();
+
+        Player player1 = new Player(PlayerColor.WHITE);
+        Player player2 = new Player(PlayerColor.BLACK);
+
+        chessBoard.setUpTeam(player1, Side.BOTTOM);
+        chessBoard.setUpTeam(player2, Side.TOP);
+
+        for(int x = 0; x < nCote; ++x){
+            for(int y = 0; y < nCote; ++y){
+                Point pos = new Point(x, y);
+                if(!chessBoard.isCellEmpty(pos)){
+                    Piece piece = chessBoard.getCellAt(pos);
+                    view.putPiece(piece.getType(), piece.getColor(), x, y);
+                }
+            }
+        }
+
+        this.player1 = player1;
+        this.player2 = player2;
+        this.chessBoard = chessBoard;
+        this.turn = player1; // Le blanc commence.
+    }
+
+
+    /**
+     * Affiche un message (texte) à l'utilisateur. Il ne s'agit pas d'un pop-up, càd
+     * que l'utilisateur peut continuer à jouer en ayant le message affiché.
+     * @param message Message à afficher.
+     */
+    protected void displayMessage(String message){
+        view.displayMessage(message);
+    }
+
+    /**
      * Informe si la pièce sélectionnée appartient au joueur jouant le tour actuel.
      * @param piece Pièce appartenant à un des deux joueurs.
      * @return Vrai si la pièce appartient au joueur pouvant jouer. Faux si elle
@@ -167,42 +199,13 @@ public class ChessGame implements ChessController {
         view.putPiece(piece.getType(), piece.getColor(), pos.x, pos.y);
     }
 
-    /**
-     * Initialisation d'une nouvelle partie.
-     */
-    @Override
-    public void newGame() {
-        ChessBoard chessBoard = new ChessBoard(this);
-        int nCote = chessBoard.getDimension();
-
-        Player player1 = new Player(PlayerColor.WHITE);
-        Player player2 = new Player(PlayerColor.BLACK);
-
-        chessBoard.setUpTeam(player1, Side.BOTTOM);
-        chessBoard.setUpTeam(player2, Side.TOP);
-
-        for(int x = 0; x < nCote; ++x){
-            for(int y = 0; y < nCote; ++y){
-                Point pos = new Point(x, y);
-                if(!chessBoard.isCellEmpty(pos)){
-                    Piece piece = chessBoard.getCellAt(pos);
-                    view.putPiece(piece.getType(), piece.getColor(), x, y);
-                }
-            }
-        }
-
-        this.player1 = player1;
-        this.player2 = player2;
-        this.chessBoard = chessBoard;
-        this.turn = player1; // Le blanc commence.
-    }
 
     /**
      * Promu le pion dont on donne la position et la couleur
      * @param couleurPion couleur du pion à promouvoir
      * @param positionPion position du pion
      */
-    public void promotePawn(PieceColor couleurPion, Point positionPion){
+    private void promotePawn(PieceColor couleurPion, Point positionPion){
         ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
                 new Queen(couleurPion, chessBoard), new Bishop(couleurPion, chessBoard), new Rook(couleurPion, chessBoard), new Knight(couleurPion, chessBoard));
         if (promoPiece != null) {
