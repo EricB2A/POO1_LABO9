@@ -20,8 +20,9 @@ public class ChessGame implements ChessController {
         if(view == null){
             throw new RuntimeException("Qu'est-ce qu'is this view.");
         }
-        view.startView();
         this.view = view;
+        view.startView();
+
     }
 
     protected void displayMessage(String message){
