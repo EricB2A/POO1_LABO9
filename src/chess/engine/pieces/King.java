@@ -9,14 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* ---------------------------
-Laboratoire 	: 01
+Laboratoire 	: 09
 Fichier 		: engine/pieces/King.java
 Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
 Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Roi.
 
-Remarque(s) 	: -
+Remarque(s) 	: - Les Rois implémentent l'interface SpecialFirstMove afin d'effectuer
+                    l'opération de long et court Castle.
 
 Compilateur	    : javac 11.0.4
 --------------------------- */
@@ -68,13 +69,13 @@ public class King extends Piece implements SpecialFirstMove {
             Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x + 3, y));
             Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x - 4, y));
 
-            if (leftRook != null && leftRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
+            if (leftRook != null && leftRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
                     && chessBoard.isCellEmpty(new Point(x - 3, y)) && !chessBoard.isUnderAttack(new Point(pos.x - 1, pos.y), opponentColor)) {
                 Move move = new Move(pos, new Point(x - 2, y), SpecialMove.KING_LONG_CASTLED);
                 Move._add(this, move, moves, false);
 
             }
-            if (rightRook != null && rightRook.hasAlreadyMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
+            if (rightRook != null && rightRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
                     && chessBoard.isCellEmpty(new Point(x + 2, y)) && !chessBoard.isUnderAttack(new Point(pos.x + 1, pos.y), opponentColor)) {
 
                 Move move = new Move(pos, new Point(x + 2, y), SpecialMove.KING_SHORT_CASTLED);
@@ -85,10 +86,16 @@ public class King extends Piece implements SpecialFirstMove {
         return moves;
     }
 
-    public boolean hasAlreadyMoved() {
+    /**
+     * cf. classe SpecialFirstMove.
+     */
+    public boolean hasNotMoved() {
         return !hasMoved;
     }
 
+    /**
+     * cf. classe SpecialFirstMove.
+     */
     public void hasMoved() {
         this.hasMoved = true;
     }

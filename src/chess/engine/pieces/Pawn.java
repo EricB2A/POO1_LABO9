@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /* ---------------------------
-Laboratoire 	: 01
+Laboratoire 	: 09
 Fichier 		: engine/pieces/Pawn.java
 Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
 Date			: 14.01.2020
@@ -90,25 +90,35 @@ public class Pawn extends Piece implements SpecialFirstMove {
     }
 
     /**
-     * @return Est-ce que la pièce a déjà effectué un déplacement.
+     * cf. classe SpecialFirstMove.
      */
     @Override
-    public boolean hasAlreadyMoved() {
+    public boolean hasNotMoved() {
         return !hasMoved;
     }
 
     /**
-     * Modif
+     * cf. classe SpecialFirstMove.
      */
     public void hasMoved() {
         this.hasMoved = true;
     }
 
+    /**
+     * Est-ce que la pièce peut être promue ?
+     * @param y Position ordonnée (y) de la pièce.
+     * @return Vrai si peut être promue, faux dans le cas contraire.
+     */
     private boolean canBePromoted(int y) {
         ChessBoard chessBoard =  this.getChessBoard();
         return y == 0 || y == chessBoard.getDimension() - 1;
     }
 
+    /**
+     * Est-ce que la pièce peut attaquer un autre pièce ?
+     * @param to Position de la pièce.
+     * @return Vrai si la pièce peut attaquer, faux dans le cas contraire.
+     */
     private boolean canAttack(Point to) {
         ChessBoard chessBoard = this.getChessBoard();
         return Move.inBound(to, chessBoard.getDimension()) && !chessBoard.isCellEmpty(to) && chessBoard.getCellAt(to).getColor() != getColor();

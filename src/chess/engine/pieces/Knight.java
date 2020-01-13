@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* ---------------------------
-Laboratoire 	: 01
+Laboratoire 	: 09
 Fichier 		: engine/pieces/Knight.java
 Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
 Date			: 14.01.2020
