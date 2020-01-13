@@ -50,7 +50,7 @@ public class PieceColor {
         return side;
     }
     public static PlayerColor getOpponentColor(PlayerColor playerColor){
-        return playerColor == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.BLACK;
+        return playerColor == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
     }
 
 }
