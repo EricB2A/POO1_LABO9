@@ -105,11 +105,13 @@ public class ConsoleView extends BaseView<String> {
 
   @Override
   public void setCurrentPlayerColor(Color color) {
+    String message = "Aux pièces ";
     if(color == Color.WHITE){
-      System.out.println("c'est aux blancs");
+      message += "blanches ";
     }else{
-      System.out.println("C'est aux noirs");
+      message += "noires ";
     }
+    System.out.println(message + "de jouer");
   }
 
   private void initialize() {
