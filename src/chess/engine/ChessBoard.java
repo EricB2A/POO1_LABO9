@@ -32,7 +32,7 @@ public class ChessBoard {
      * @param chessGame référence sur l'instance d'une partie.
      * @throws RuntimeException est lancé quand on construit l'object sans chessGame
      */
-    public ChessBoard(ChessGame chessGame){
+    protected ChessBoard(ChessGame chessGame){
         if(chessGame == null){
             throw new RuntimeException("We need une partie to play.");
         }
