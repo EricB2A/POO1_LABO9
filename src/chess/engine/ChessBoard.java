@@ -20,12 +20,12 @@ Compilateur	    : javac 11.0.4
 --------------------------- */
 public class ChessBoard {
     private static int N_COTE = 8;
-    private Piece board[][];
+    private Piece[][] board;
     private Move lastMove;
     ChessGame chessGame;
     Point whiteKing;
     Point blackKing;
-    private String checkTextMessage = "Echec";
+    private final static String CHECK_TEXT_MESSAGE = "Echec";
 
     /**
      * Constructeur de l'échiquier.
@@ -89,29 +89,6 @@ public class ChessBoard {
         board[pos.y][pos.x] = null;
         return true;
     }
-    
-    // TODO : à supprimer
-    public void display(){
-        for(int j = N_COTE - 1 ; j >= 0; --j){
-            StringBuilder str = new StringBuilder();
-            for(int i = 0; i < N_COTE; ++i){
-                if(board[j][i] == null){
-                    str.append(" ");
-                }else{
-                    Piece p = board[j][i];
-                    if(p.getColor() == PlayerColor.WHITE){
-                        str.append("B");
-
-                    }else{
-                        str.append("N");
-
-                    }
-                }
-                str.append("|");
-            }
-            System.out.println(str);
-        }
-    }
 
     /**
      * Place la pièce sur l'échiquier. Ecrase le contenu de la cellule.
@@ -134,7 +111,7 @@ public class ChessBoard {
         }
 
         if(isCheck(piece.getColor() == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE)){
-            chessGame.displayMessage(checkTextMessage);
+            chessGame.displayMessage(CHECK_TEXT_MESSAGE);
         }else{
             chessGame.displayMessage("");
         }
