@@ -72,14 +72,14 @@ public class King extends Piece implements SpecialFirstMove {
             if (leftRook != null && leftRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
                     && chessBoard.isCellEmpty(new Point(x - 3, y)) && !chessBoard.isUnderAttack(new Point(pos.x - 1, pos.y), opponentColor)) {
                 Move move = new Move(pos, new Point(x - 2, y), SpecialMove.KING_LONG_CASTLED);
-                Move._add(this, move, moves, false);
+                Move.add(this, move, moves, false);
 
             }
             if (rightRook != null && rightRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
                     && chessBoard.isCellEmpty(new Point(x + 2, y)) && !chessBoard.isUnderAttack(new Point(pos.x + 1, pos.y), opponentColor)) {
 
                 Move move = new Move(pos, new Point(x + 2, y), SpecialMove.KING_SHORT_CASTLED);
-                Move._add(this, move, moves, false);
+                Move.add(this, move, moves, false);
             }
         }
 

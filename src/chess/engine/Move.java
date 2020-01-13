@@ -66,6 +66,11 @@ public class Move {
     // Critères de mouvement : Déplacement a lieu sur cellule vide. Peut aller sur cellule contenant pièce adverse (en la mangeant),
     // mais pas sur cellule avec pièce alliée.
     //TODO.
+
+    /**
+     * Ajoute mouvement simple (càd non spécial).
+     * cf. addMove (l'autre).
+     */
     public static void addMove(Point from, Point to, Piece originalPiece,List<Move> moves, boolean virtual){
         addMove(from, to, originalPiece, moves, null, virtual);
     }
@@ -88,10 +93,10 @@ public class Move {
      */
     public static void addMove(Point from, Point to, Piece originalPiece, List<Move> moves, SpecialMove specialMove, boolean virtual){
         ChessBoard chessBoard = originalPiece.getChessBoard();
-        if(Move.inBound(to, chessBoard.getDimension())) {
+        if(Move.inBound(to, ChessBoard.getDimension())) {
             Piece piece = chessBoard.getCellAt(to);
             if (piece == null || piece.getColor() != originalPiece.getColor()) {
-                _add(originalPiece, new Move(from, to, specialMove), moves, virtual);
+                add(originalPiece, new Move(from, to, specialMove), moves, virtual);
             }
         }
     }
@@ -104,7 +109,7 @@ public class Move {
      * @param moves Liste de mouvements sur laquelle va possiblement s'ajouter le mouvement.
      * @param virtual cf addMove.
      */
-    public static void _add(Piece piece, Move move, List<Move> moves, boolean virtual){
+    public static void add(Piece piece, Move move, List<Move> moves, boolean virtual){
         if(!virtual){
             if(!(piece.willBeCheck(move))){
                 moves.add(move);
@@ -132,10 +137,10 @@ public class Move {
         while(inBound(to, ChessBoard.getDimension())){
             Piece piece = chessBoard.getCellAt(to);
             if(piece == null){
-                _add(originalPiece, new Move(from, to), moves, virtual);
+                add(originalPiece, new Move(from, to), moves, virtual);
             }else if(piece.getColor() != originalPiece.getColor()){
                 // Oh wow, une pièce adverse.
-                _add(originalPiece, new Move(from, to), moves, virtual);
+                add(originalPiece, new Move(from, to), moves, virtual);
                 break; // On ne peut aller plus loin, quittons la boucle !
             }else{
                 break;
