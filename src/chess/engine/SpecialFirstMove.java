@@ -15,6 +15,15 @@ Remarque(s) 	: -
 Compilateur	 : javac 11.0.4
 --------------------------- */
 public interface SpecialFirstMove {
-    boolean hasAlreadyMoved();
+    /**
+     * @return Vrai si la pièce n'a pas encore été déplacé dans la partie.
+     *         Faux si la pièce a été déplacée.
+     */
+    boolean hasNotMoved();
+
+    /**
+     * Permet d'informer que la pièce a été déplacée. Suite à l'appel de cette
+     * méthode, hasNotMoved() renvoie Faux.
+     */
     void hasMoved();
 }

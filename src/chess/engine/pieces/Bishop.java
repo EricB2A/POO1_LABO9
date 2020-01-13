@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* ---------------------------
-Laboratoire 	: 01
+Laboratoire 	: 09
 Fichier 		: engine/pieces/Bishop.java
 Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
 Date			: 14.01.2020
@@ -36,7 +36,7 @@ public class Bishop extends Piece implements ChessView.UserChoice {
      */
     @Override
     public List<Move> getMoves(Point pos, boolean virtual) {
-        List<Move> moves = new ArrayList<Move>();
+        List<Move> moves = new ArrayList<>();
 
         //Diagonale droite supérieure.
         Move.addMoves(pos, new Point(1,1), this, moves, virtual);
