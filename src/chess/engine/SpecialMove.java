@@ -14,7 +14,7 @@ Compilateur	 : javac 11.0.4
 --------------------------- */
 public enum SpecialMove {
     PAWN_FAST_MOVE,
-    PAWN_EN_PASSANT, // Yes c'est l'english name
+    PAWN_EN_PASSANT,
     PAWN_PROMOTION,
     KING_SHORT_CASTLED,
     KING_LONG_CASTLED

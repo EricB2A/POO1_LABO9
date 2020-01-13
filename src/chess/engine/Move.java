@@ -71,11 +71,11 @@ public class Move {
     }
 
     /**
-     * Ajoute un nouvement légal à la liste de mouvements donnés. Un mouvement part d'un point from pour atteindre un point to.
-     * Un mouvement est considéré légal s'il respecgte les point suivants :
+     * Ajoute un mouvement légal à la liste de mouvements donnés. Un mouvement part d'un point from pour atteindre un point to.
+     * Un mouvement est considéré légal s'il respecgte les points suivants :
      *  - S'il sa destination est dans les dimensions du damier.
      *  - Si la cellule destination est vide ou contient une pièce ennemie.
-     *  - Si le mouvement ne vas pas mettre en échec mon roi.
+     *  - Si le mouvement ne vas pas mettre en échec le roi de la pièce bougée.
      *  Notons cependant que le dernier test peut-être omis dans le cas où l'argument virtual est à vrai.
      *  Dans ce cas, un mouvement est légal même si ce dernier met en échec le roi ou non.
      * @param from Point duquel part le mouvement.
@@ -97,7 +97,7 @@ public class Move {
     }
 
     /**
-     * Ajoute le mouvement donnée à la liste de mouveemnts, si ce dernier ne va pas mettre en échec le roi de la pièce
+     * Ajoute le mouvement donnée à la liste de mouvements, si ce dernier ne va pas mettre en échec le roi de la pièce
      * à déplacer. Ce test peut être omis si l'argument virtual est à vrai.
      * @param piece Pièce à déplacer.
      * @param move Mouvement effectué sur la pièce.
@@ -116,7 +116,7 @@ public class Move {
 
     /**
      * Ajoute une liste de mouvements dans une direction donnée.
-     * Si on rencontre une pièce ennemie, il est possible d'aller sur la pièce ennemie (en la mangeant) mais pas derrière.
+     * Si on rencontre une pièce ennemie, il est possible d'aller sur la pièce ennemie (en la capturant) mais pas derrière.
      * Si on rencontre une pièce amie, les mouvements dans cette direction s'arrêtent devant.
      * @param from Point duquel part le mouvement.
      * @param delta Axe de déplacement dans les axes, valeurs attendus : -1, 0, 1.
@@ -129,7 +129,7 @@ public class Move {
         ChessBoard chessBoard = originalPiece.getChessBoard();
         Point to = new Point(from.x + delta.x, from.y + delta.y);
 
-        while(inBound(to, chessBoard.getDimension())){
+        while(inBound(to, ChessBoard.getDimension())){
             Piece piece = chessBoard.getCellAt(to);
             if(piece == null){
                 _add(originalPiece, new Move(from, to), moves, virtual);

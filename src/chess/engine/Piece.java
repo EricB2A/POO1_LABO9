@@ -15,7 +15,7 @@ Date			: 14.01.2020
 But 			: Classe abstraire représentant une pièce, qui est présente sur l'échiquier.
 
 Remarque(s) 	: -
-
+getSide
 Compilateur	 : javac 11.0.4
 --------------------------- */
 public abstract class Piece  {

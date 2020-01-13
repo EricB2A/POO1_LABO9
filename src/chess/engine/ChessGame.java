@@ -44,7 +44,7 @@ public class ChessGame implements ChessController {
     }
 
     /**
-     * Affiche un message (texte) à l'utilsiateur. Il ne s'agit pas d'un pop-up, càd
+     * Affiche un message (texte) à l'utilisateur. Il ne s'agit pas d'un pop-up, càd
      * que l'utilisateur peut continuer à jouer en ayant le message affiché.
      * @param message Message à afficher.
      */
@@ -54,10 +54,11 @@ public class ChessGame implements ChessController {
 
     /**
      * Effectue le mouvement sur l'échiquier si ce dernier est légal. Un mouvement légal
-     * doit respecter les règles de déplacement de la pièce sélectionné et la pièce bougeant
+     * doit respecter les règles de déplacement de la pièce sélectionnée et la pièce se déplaçant
      * doit être de la même couleur que le joueur jouant le tour.
      * Les tours d'une partie d'un jeu s'effectuentent en alternance entre les 2 joueurs.
-     * Le tour change lors-ce qu'une pièce a été bougé sur l'échiquier.
+     * Le tour change lors-ce qu'une pièce a été bougée sur l'échiquier.
+     *
      * @param fromX Abscisse (x) de la position initiale de la pièce à bouger.
      * @param fromY Ordonnée (y) de la position initiale de la pièce à bouger.
      * @param toX Abscisse (x) de la position cible où devrait aller la pièce.
@@ -68,9 +69,11 @@ public class ChessGame implements ChessController {
     public boolean move(int fromX, int fromY, int toX, int toY) {
         Point from = new Point(fromX, fromY);
         Point to = new Point(toX ,toY);
+
         if(chessBoard.isCellEmpty(from)){
             return false;
         }
+
         Piece toMove = chessBoard.getCellAt(from);
 
         if(isItsTurn(toMove)){
@@ -79,6 +82,7 @@ public class ChessGame implements ChessController {
                     removePieceAt(from);
                     placePieceAt(toMove, to);
 
+                    // s'il s'agit d'un mouvement spécial, on applique les règles spécifique à celle-ci
                     if(move.getSpecialMove() != null) {
                         switch (move.getSpecialMove()) {
                             case PAWN_EN_PASSANT:
@@ -89,14 +93,9 @@ public class ChessGame implements ChessController {
 
                             case PAWN_PROMOTION:
                                 PieceColor pc = new PieceColor(toMove.getColor(), toMove.getSide());
-                                ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
-                                        new Queen(pc, chessBoard), new Bishop(pc, chessBoard), new Rook(pc, chessBoard), new Knight(pc, chessBoard));
-                                if (promoPiece != null) {
-                                    removePieceAt(to);
-                                    placePieceAt((Piece) promoPiece, to);
-                                }
+                                promotePawn(pc, to);
                                 break;
-                                
+                                // gestion du roque
                             case KING_LONG_CASTLED:
                                 Rook rRook = (Rook) chessBoard.getCellAt(new Point(toX - 2, toY));
                                 removePieceAt(new Point(toX - 2, toY));
@@ -196,5 +195,19 @@ public class ChessGame implements ChessController {
         this.player2 = player2;
         this.chessBoard = chessBoard;
         this.turn = player1; // Le blanc commence.
+    }
+
+    /**
+     * Promu le pion dont on donne la position et la couleur
+     * @param couleurPion couleur du pion à promouvoir
+     * @param positionPion position du pion
+     */
+    public void promotePawn(PieceColor couleurPion, Point positionPion){
+        ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
+                new Queen(couleurPion, chessBoard), new Bishop(couleurPion, chessBoard), new Rook(couleurPion, chessBoard), new Knight(couleurPion, chessBoard));
+        if (promoPiece != null) {
+            removePieceAt(positionPion);
+            placePieceAt((Piece) promoPiece, positionPion);
+        }
     }
 }
