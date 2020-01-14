@@ -52,7 +52,7 @@ public abstract class Piece  {
      *                Vrai : ne vérifie pas l'échec.
      * @return Liste de mouvements légaux que possède la pièce.
      * NOTE: Chaque pièce enfant réimplémenant cette méthode possède sa propre liste de règles définissant les mouvement
-     *       légaux. Il se peut que l'éditeur souligne en gris une "duplication de code". Il s'agit d'unc hoix de notre
+     *       légaux. Il se peut que l'éditeur souligne en gris une "duplication de code". Il s'agit d'un choix de notre
      *       part de laisser cette "petite" duplication plutôt que de tenter de factoriser avec une méthode telle que
      *       "getDiagonals" ou "getLine" qui n'aurait pas (à notre goût) de valeur ajoutée.
      */

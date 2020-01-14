@@ -16,7 +16,7 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Cavalier.
 
-Remarque(s) 	: - Le Cavalier implémente l'interface ChessView.UserChoice car il fait parti des choix de promotion du Pion.
+Remarque(s) 	: - Implémente l'interface ChessView.UserChoice car le Cavalier fait parti des choix de promotion du Pion
 
 Compilateur	    : javac 11.0.4
 --------------------------- */

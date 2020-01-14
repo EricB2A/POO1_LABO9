@@ -134,8 +134,8 @@ public class ChessBoard {
     }
 
     /**
-     * @return Retourne les dimensions de l'échiquier.
-     *         Pour rappel, l'échiquier est une grille carrée de N_COTE cellules.
+     * @return Retourne les dimensions de l'échiquier (un côté).
+     *         Pour rappel, l'échiquier est une grille carrée de N_COTE * N_COTE cellules.
      */
     public static int getDimension(){
         return N_COTE;
@@ -144,7 +144,7 @@ public class ChessBoard {
     /**
      * Retourne le contenu d'une cellule cible.
      * @param pos Position de la cellule.
-     * @return Contenu de la cellule. Peut contenir une pièce ou une réféence null.
+     * @return Contenu de la cellule. Peut contenir une pièce ou une référence null.
      */
     public Piece getCellAt(Point pos){
         return board[pos.y][pos.x];
@@ -164,7 +164,7 @@ public class ChessBoard {
      *       à la place (ce qui nous permettrait de ne pas avoir de méthode set), il faut
      *       savoir que les mouvements nous permettent de savoir si un coup spécial a été
      *       effectué, ce qui peut s'avérer utile.
-     *       cf. classe Move.
+     *       cf. classe Move pour les mouvements spéciaux.
      */
     protected void setLastMove(Move move){
         this.lastMove = move;
@@ -201,7 +201,7 @@ public class ChessBoard {
         // Roi
         board[side.position][4] = new King(pieceColor, this);
 
-        // Gardons une référence sur l'emplacement initial des Rois.
+        // Gardons une référence sur l'emplacement initiale des Rois.
         if(player.getColor() == PlayerColor.WHITE){
             whiteKing = new Point(4, side.position);
         }else{

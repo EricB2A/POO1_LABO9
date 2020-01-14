@@ -12,7 +12,7 @@ Date			: 14.01.2020
 But 			: La classe représente un mouvement s'effectuant sur l'échiquier, partant d'une coordonnée
                   (pointant une cellule) à une autre.
 
-Remarque(s) 	:
+Remarque(s) 	: -
 
 Compilateur	 : javac 11.0.4
 --------------------------- */
@@ -31,12 +31,12 @@ public class Move {
     }
 
     /**
-     * Identique que constructeur précédent, mais représentant un ayant un
+     * Identique que constructeur précédent, mais représentant un mouvement ayant un
      * comportement spécial.
      * La liste de mouvements spéciaux supportés est présente dans l'énum SpecialMove.
      * @param from Point (x,y) ciblant la cellule initial.
      * @param to Point (x,y) ciblant la cellule de destination.
-     * @param specialMove Enum décrivant le type de mouvement spécial.
+     * @param specialMove Type décrivant le type de mouvement spécial.
      */
     public Move(Point from, Point to, SpecialMove specialMove){
         this(from, to);
@@ -122,8 +122,9 @@ public class Move {
      * Si on rencontre une pièce ennemie, il est possible d'aller sur la pièce ennemie (en la capturant) mais pas derrière.
      * Si on rencontre une pièce amie, les mouvements dans cette direction s'arrêtent devant.
      * @param from Point duquel part le mouvement.
-     * @param delta Axe de déplacement dans les axes, valeurs attendus : -1, 0, 1.
+     * @param delta Axe de déplacement dans les axes, valeurs attendues : -1, 0, 1.
      *              Exemple (1,-1) nous donne la diagonale inférieure droite.
+     *              Ou (1,0) nous donne la ligne horizontale doite.
      * @param originalPiece Pièce à déplacer.
      * @param moves Liste de mouvements sur laquelle vont possiblement s'ajouter des mouvements.
      * @param virtual cf addMove.

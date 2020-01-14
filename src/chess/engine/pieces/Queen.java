@@ -16,7 +16,7 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Reine.
 
-Remarque(s) 	: - La Reine implémente l'interface ChessView.UserChoice car elle fait parti des choix de promotion du Pion.
+Remarque(s) 	: - Implémente l'interface ChessView.UserChoice car la Reine fait parti des choix de promotion du Pion
 
 Compilateur	    : javac 11.0.4
 --------------------------- */

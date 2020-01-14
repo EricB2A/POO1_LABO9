@@ -18,7 +18,7 @@ public class Player {
     private PlayerColor color;
 
     /**
-     * Constructeur de joueur .
+     * Constructeur de joueur.
      * @param color Couleur du joueur.
      * @throws RuntimeException Si la couleur est une référence null.
      */

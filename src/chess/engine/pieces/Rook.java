@@ -16,7 +16,7 @@ Date			: 14.01.2020
 
 But 			: Implémentation de la pièce Tour.
 
-Remarque(s) 	: - La Tour implémente l'interface ChessView.UserChoice car elle fait parti des choix de promotion du Pion.
+Remarque(s) 	: - Implémente l'interface ChessView.UserChoice car la Tour fait parti des choix de promotion du Pion
                   - La tour implémente l'interface SpecialFirstMove afin d'effectuer
                     l'opération de long et court Castle.
 

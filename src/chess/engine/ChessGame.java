@@ -14,7 +14,7 @@ Auteur(s) 	    : Eric Bousbaa, Ilias Goujgali
 Date			: 14.01.2020
 
 But 			: La classe ChessGame fait le lien entre la GUI, l'utilisateur et l'échiquier (via ChessBoard).
-                  La classe permet de démarrer une partie, d'effectuer des mouveemnets et de gérer les cours.
+                  La classe permet de démarrer une partie, d'effectuer des mouvements et de gérer les tours.
 
 Remarque(s) 	: - 
 
@@ -73,7 +73,7 @@ public class ChessGame implements ChessController {
                     removePieceAt(from);
                     placePieceAt(toMove, to);
 
-                    // s'il s'agit d'un mouvement spécial, on applique les règles spécifique à celle-ci
+                    // S'il s'agit d'un mouvement spécial, on applique les règles spécifique à celle-ci.
                     if(move.getSpecialMove() != null) {
                         switch (move.getSpecialMove()) {
                             case PAWN_EN_PASSANT: // Prise en passant.
@@ -200,8 +200,8 @@ public class ChessGame implements ChessController {
 
     /**
      * Promu le pion dont on donne la position et la couleur.
-     * @param pos couleur du pion à promouvoir
-     * @param pos position du pion
+     * @param pos Couleur du pion à promouvoir.
+     * @param pos Position du pion.
      */
     private void promotePawn(PieceColor pawnColor, Point pos){
         ChessView.UserChoice promoPiece = view.askUser("Vous êtes promu, soldat !", "Quel grade souhaitez-vous avoir ?",
