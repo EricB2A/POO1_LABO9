@@ -25,7 +25,8 @@ public class King extends Piece implements SpecialFirstMove {
 
     /**
      * Constructeur de la pièce.
-     * @param color Couleur de la pièce.
+     *
+     * @param color      Couleur de la pièce.
      * @param chessBoard Echiquier.
      */
     public King(PieceColor color, ChessBoard chessBoard) {
@@ -57,31 +58,38 @@ public class King extends Piece implements SpecialFirstMove {
         Move.addMove(pos, new Point(x - 1, y - 1), this, moves, virtual);
 
         // Supérieur
-        Move.addMove(pos, new Point(x , y + 1), this, moves, virtual);
+        Move.addMove(pos, new Point(x, y + 1), this, moves, virtual);
         // Inférieur
-        Move.addMove(pos, new Point(x , y - 1), this, moves, virtual);
+        Move.addMove(pos, new Point(x, y - 1), this, moves, virtual);
 
         PlayerColor opponentColor = PieceColor.getOpponentColor(getColor());
 
         // Gestion du roque.
         if (!virtual && !hasMoved && !chessBoard.isUnderAttack(pos, opponentColor)) {
-            Rook leftRook = (Rook) chessBoard.getCellAt(new Point(x + 3, y));
-            Rook rightRook = (Rook) chessBoard.getCellAt(new Point(x - 4, y));
+            Piece leftPiece = chessBoard.getCellAt(new Point(x + 3, y));
+            Piece rightPiece = chessBoard.getCellAt(new Point(x - 4, y));
 
-            // on vérifie que les tours n'est pas bouger et que la trajectoire soit libre et non-menacée
-            // ajout du grand roque
-            if (leftRook != null && leftRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
-                    && chessBoard.isCellEmpty(new Point(x - 3, y)) && !chessBoard.isUnderAttack(new Point(pos.x - 1, pos.y), opponentColor)) {
-                Move move = new Move(pos, new Point(x - 2, y), SpecialMove.KING_LONG_CASTLED);
-                Move.add(this, move, moves, false);
+            if (leftPiece != null && leftPiece.getType() == PieceType.ROOK && leftPiece.getColor() == getColor()) {
+                Rook leftRook = (Rook) leftPiece;
+                // on vérifie que les tours n'est pas bouger et que la trajectoire soit libre et non-menacée
+                // ajout du grand roque
+                if (leftRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x - 1, y)) && chessBoard.isCellEmpty(new Point(x - 2, y))
+                        && chessBoard.isCellEmpty(new Point(x - 3, y)) && !chessBoard.isUnderAttack(new Point(pos.x - 1, pos.y), opponentColor)) {
+                    Move move = new Move(pos, new Point(x - 2, y), SpecialMove.KING_LONG_CASTLED);
+                    Move.add(this, move, moves, false);
 
+                }
             }
-            // ajout du petit roque
-            if (rightRook != null && rightRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
-                    && chessBoard.isCellEmpty(new Point(x + 2, y)) && !chessBoard.isUnderAttack(new Point(pos.x + 1, pos.y), opponentColor)) {
+            if (rightPiece != null && rightPiece.getType() == PieceType.ROOK && rightPiece.getColor() == getColor()) {
 
-                Move move = new Move(pos, new Point(x + 2, y), SpecialMove.KING_SHORT_CASTLED);
-                Move.add(this, move, moves, false);
+                Rook rightRook = (Rook) rightPiece;
+                // ajout du petit roque
+                if (rightRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
+                        && chessBoard.isCellEmpty(new Point(x + 2, y)) && !chessBoard.isUnderAttack(new Point(pos.x + 1, pos.y), opponentColor)) {
+
+                    Move move = new Move(pos, new Point(x + 2, y), SpecialMove.KING_SHORT_CASTLED);
+                    Move.add(this, move, moves, false);
+                }
             }
         }
 
