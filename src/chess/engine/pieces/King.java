@@ -66,8 +66,8 @@ public class King extends Piece implements SpecialFirstMove {
 
         // Gestion du roque.
         if (!virtual && !hasMoved && !chessBoard.isUnderAttack(pos, opponentColor)) {
-            Piece leftPiece = chessBoard.getCellAt(new Point(x + 3, y));
-            Piece rightPiece = chessBoard.getCellAt(new Point(x - 4, y));
+            Piece rightPiece = chessBoard.getCellAt(new Point(x + 3, y));
+            Piece leftPiece = chessBoard.getCellAt(new Point(x - 4, y));
 
             if (leftPiece != null && leftPiece.getType() == PieceType.ROOK && leftPiece.getColor() == getColor()) {
                 Rook leftRook = (Rook) leftPiece;
@@ -81,7 +81,6 @@ public class King extends Piece implements SpecialFirstMove {
                 }
             }
             if (rightPiece != null && rightPiece.getType() == PieceType.ROOK && rightPiece.getColor() == getColor()) {
-
                 Rook rightRook = (Rook) rightPiece;
                 // ajout du petit roque
                 if (rightRook.hasNotMoved() && chessBoard.isCellEmpty(new Point(x + 1, y))
