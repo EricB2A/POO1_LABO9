@@ -12,8 +12,8 @@ class StudentChess {
     ChessController controller = new ChessGame(); // Board est une classe faite et nommée par les étudiant
 
     // 2. Création de la vue désirée
-    ChessView view = new GUIView(controller); // ou console
-    //ChessView view = new ConsoleView(controller); // ou GUI
+    ChessView view = new GUIView(controller); // GUI
+    //ChessView view = new ConsoleView(controller); // ou console
 
     // 3. Lancement du programme.
     controller.start(view);
