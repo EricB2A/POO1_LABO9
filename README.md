@@ -1,5 +1,5 @@
 # LABO9  
 ## TODO
-- [ ] Code
-- [ ] Tests
-- [ ] Rapport
+- [x] Code
+- [x] Tests
+- [x] Rapport
